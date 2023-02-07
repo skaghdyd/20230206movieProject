@@ -1,4 +1,4 @@
-package com.study.springboot.nhy;
+package com.study.springboot.nhy.domain;
 
 import lombok.Data;
 

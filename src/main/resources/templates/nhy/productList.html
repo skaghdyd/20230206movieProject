@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>product list</title>
+</head>
+<body>
+<h1>상품목록 페이지입니다</h1><hr>
+<button onclick="addProduct()">등록</button>
+<button onclick="deleteProduct()">삭제</button>
+<button onclick="modifyProduct()">수정</button>
+<table border="1">
+	<tr align="center">
+		<td onclick="sel()">선택</td>
+		<td>상품번호</td>
+		<td>상품명</td>
+		<td>상품가격</td>
+		<td>상품재고</td>
+	</tr>
+	<tr th:each="list : ${list}" align="center">
+		<td><input class="sel" type="checkbox" name="sel" th:value="${list.product_id}"/></td>
+		<td th:text="${list.product_id}"></td>
+		<td th:text="${list.product_name}"></td>
+		<td th:text="${list.product_price}"></td>
+		<td th:text="${list.product_stock}"></td>
+	</tr>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+	
+	//전체선택
+	let selBtn = false;
+	function sel(){
+		let checkboxes = document.querySelectorAll('input[class="sel"]');
+		if(selBtn==true){
+			checkboxes.forEach((checkbox)=>{
+				checkbox.checked=false;
+			});
+			selBtn=false;
+		} else {
+			checkboxes.forEach((checkbox)=>{
+				checkbox.checked=true;
+			});
+			selBtn=true;			
+		}
+	}
+	
+	function addProduct(){
+		location.href='add';
+	}
+	
+	function deleteProduct(){
+		let selectedColumns = new Array();
+		$("input[name='sel']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			selectedColumns.push($(this).val());
+		});
+		
+		if(selectedColumns.length==0){
+			alert('삭제할 행을 선택해주세요.');
+			return;
+		}
+		
+		$.ajax({
+			url:'delete',
+			data:{
+				'selectedColumns':selectedColumns
+				},
+			type:'POST',
+			success:function(result){
+				if(result==1){
+					alert('상품이 삭제되었습니다.');
+					location.href='list';
+				} else {
+					alert('상품삭제에 실패하였습니다! 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+	
+	function modifyProduct(){
+		//location.href='modify';
+	}
+</script>
+</body>
+</html>	
