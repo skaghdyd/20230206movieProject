@@ -35,18 +35,34 @@ public class ProductController {
 	}
 	
 	//상품등록
-	@PostMapping("/add")
 	@ResponseBody
+	@PostMapping("/add")
 	public int addProduct(ProductDTO productDTO) {
 		int result = productService.addProduct(productDTO);
 		return result;
 	}
 	
 	//상품삭제
-	@PostMapping("/delete")
 	@ResponseBody
+	@PostMapping("/delete")
 	public int deleteProduct(@RequestParam(value="selectedColumns[]") List<Integer> selectedColumns) {
 		int result = productService.deleteProduct(selectedColumns);
+		return result;
+	}
+	
+	//상품수정페이지
+	@GetMapping("/modify")
+	public String modifyProduct(int product_id, Model model) {
+		ProductDTO productDTO = productService.selectOneProduct(product_id);
+		model.addAttribute("productDTO", productDTO);
+		return "nhy/modifyProduct";
+	}
+	
+	//상품수정
+	@ResponseBody
+	@PostMapping("/modify")
+	public int modifyProduct(ProductDTO productDTO) {
+		int result = productService.modifyProduct(productDTO);
 		return result;
 	}
 }

@@ -7,10 +7,10 @@
 <body>
 <h1>상품등록 페이지입니다</h1><hr>
 <form id="addProductForm" action="add" method="post">
-	상품번호 : <input id="product_id" type="text" name="product_id" value=0 readonly /><br>
-	상품명 : <input id="product_name" type="text" name="product_name" /><br>
-	상품가격 : <input id="product_price" type="number" name="product_price" /><br>
-	상품재고 : <input id="product_stock" type="number" name="product_stock" value=0 readonly /><br>
+	상품번호 : <input id="product_id" type="text" name="product_id" th:value="${productDTO.product_id}" readonly /><br>
+	상품명 : <input id="product_name" type="text" name="product_name" th:value="${productDTO.product_name}" /><br>
+	상품가격 : <input id="product_price" type="number" name="product_price" th:value="${productDTO.product_price}" /><br>
+	상품재고 : <input id="product_stock" type="number" name="product_stock" th:value="${productDTO.product_stock}" readonly /><br>
 </form>
 <button onclick="confirm()">확인</button>
 <button onclick="cancel()">취소</button>
@@ -49,10 +49,10 @@
 			processData: false,
 			success:function(result){
 				if(result==1){
-					alert('상품이 추가되었습니다.');
+					alert('상품이 수정되었습니다.');
 					location.href='list';
 				} else {
-					alert('상품추가에 실패하였습니다! 관리자에게 문의하세요.');
+					alert('상품수정에 실패하였습니다! 관리자에게 문의하세요.');
 				}
 			}
 		});

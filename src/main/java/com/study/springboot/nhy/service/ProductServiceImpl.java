@@ -42,4 +42,16 @@ public class ProductServiceImpl implements ProductService {
 		return 0;		
 	}
 
+	@Override
+	public int modifyProduct(ProductDTO productDTO) {
+		int result = productMapper.modifyProduct(productDTO);
+		return result;
+	}
+
+	@Override
+	public ProductDTO selectOneProduct(int product_id) {
+		ProductDTO productDTO = productMapper.selectOneProduct(product_id);
+		return productDTO;
+	}
+
 }
