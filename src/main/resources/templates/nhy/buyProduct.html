@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품구매 페이지</title>
+<style>
+	#modal {
+		display: none;
+		position:relative;
+		width:100%;
+		height:100%;
+		z-index:1;
+	}
+	
+	#modal h2 {
+		margin:0;
+	}
+	#modal button {
+		display:inline-block;
+		width:100px;
+		margin-left:calc(100% - 100px - 10px);
+	}
+	
+	#modal .modal_content {
+		width:1000px;
+		margin:100px auto;
+		padding:20px 10px;
+		background:#fff;
+		border:2px solid #666;
+	}
+	
+	#modal .modal_layer {
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background:rgba(0, 0, 0, 0.5);
+		z-index:-1;
+	}   
+</style>
+</head>
+<body>
+	<button onclick="cancel()">돌아가기</button>
+	<h1>상품구매 페이지입니다</h1>
+	<hr>
+	상품검색
+	<div>
+		<input type="text" id="search_product_name" placeholder="상품명을 입력해주세요.">
+		<input type="button" value="검색" id="search_modal_open_btn" onclick="openBuyProductPopupModal()">
+	</div>
+	<hr>
+	결제목록
+	<table border="1">
+		<thead>
+			<tr align="center">
+				<td>상품번호</td>
+				<td>상품명</td>
+				<td>상품가격</td>
+				<td>구매수량</td>
+				<td>삭제</td>
+			<tr>
+		</thead>
+		<tbody id="selectedProducts">
+		</tbody>
+	</table>
+	<div>
+		<hr>
+		총액 : <span id="totalPrice">0</span>
+	</div>
+	<hr>
+	<div>
+		<button onclick="payByCash()">현금결제</button>
+		<button onclick="payByCard()">카드결제</button>
+		<button onclick="reset()">RESET</button>
+	</div>
+	<div id="modal">
+		<div class="modal_content">
+			<h2>상품검색</h2>
+			<div>
+				<input type="text" id="search_product_name_modal" placeholder="상품명을 입력해주세요.">
+				<input type="button" value="검색" onclick="searchProduct()">
+			</div>
+			<table border="1">
+				<thead>
+					<tr align="center">
+						<td>선택</td>
+						<td>상품번호</td>
+						<td>상품명</td>
+						<td>상품가격</td>
+						<td>재고</td>
+						<td>구매수량</td>
+					<tr>
+				</thead>
+				<tbody id="foundProducts">
+				</tbody>
+				<tr>
+				<td colspan="6" align="right">총액 : <span id="selectedProudctsPrice">0</span></td>
+				</tr>
+			</table>
+			<div>
+				<input type="button" value="선택" onclick="selectproducts()">
+				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeBuyProductPopupModal()">
+			</div>
+		</div>
+		<div class="modal_layer"></div>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    function openBuyProductPopupModal() {
+    	let search_product_name = $('#search_product_name').val();
+    	if(search_product_name!=''){
+	    	$('input[id=search_product_name_modal]').attr('value',search_product_name);
+	        document.getElementById("modal").style.display="block";
+	        searchProduct();
+    	} else {
+    		alert('상품명을 입력해주세요.');
+    		return;
+    	}
+    }
+   
+    function closeBuyProductPopupModal() {
+        document.getElementById("modal").style.display="none";
+    }
+    
+    function cancel(){
+    	location.href='/index.html'
+    }
+    
+    function searchProduct(){
+    	let search_product_name_modal = $('#search_product_name_modal').val();
+    	if(search_product_name_modal==''){
+    		alert('상품명을 입력해주세요.');
+    		return;
+    	}
+    	$('#foundProducts').children().remove();
+    	$.ajax({
+			url:'search',
+			data:{
+				'search_product_name_modal':search_product_name_modal
+				},
+			type:'POST',
+			success:function(result){
+				result.forEach(productDTO => 
+					addProducts(productDTO)
+				);
+			}
+		});
+    }
+    
+    function addProducts(productDTO){
+    	let child = `<tr align="center">
+			    	<td><input type='checkbox' name="searchedProductSel" onclick="selectedProudctsPriceSum(this)"></td>
+			    	<td>`+productDTO.product_id+`</td>
+			    	<td>`+productDTO.product_name+`</td>
+			    	<td>`+productDTO.product_price+`</td>
+			    	<td>`+productDTO.product_stock+`</td>
+			    	<td><input type='number' value="0" oninput="selectedProudctsPriceSum(this)"></td>
+			    	</tr>`;
+		$('#foundProducts').append(child);
+    }
+    
+    function selectedProudctsPriceSum(target){
+    	if(target.value!='on' && target.value<0){
+    		target.value=0;
+    		return;
+    	}
+    	let searchedProductSel = $("input[name='searchedProductSel']:checked");
+    	let sum=0;
+    	searchedProductSel.each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			let productPrice = $(this).parent().next().next().next().text();
+			let num = $(this).parent().next().next().next().next().next().children('input').val();
+			sum+=productPrice*num;
+		});
+    	$('#selectedProudctsPrice').text(sum);
+    }
+    
+    function selectproducts(){
+    	let searchedProductSel = $("input[name='searchedProductSel']:checked"); 
+		if(searchedProductSel.length==0){
+			alert('판매할 상품을 선택해주세요.');
+			return;
+		}
+    	let selectedColumns = new Array();
+    	searchedProductSel.each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			let productId = $(this).parent().next().text();
+			let productName = $(this).parent().next().next().text();
+			let productPrice = $(this).parent().next().next().next().text();
+			let stock = $(this).parent().next().next().next().next().text();
+			let num = $(this).parent().next().next().next().next().next().children('input').val();
+			if(stock<=0){
+				selectedColumns=[];
+				alert('재고가 0인 상품을 선택하였습니다.')
+				return false;
+			}
+			if(num<=0){
+				selectedColumns=[];
+				alert('구매수량을 입력해주세요.')
+				return false;
+			}
+			selectedColumns.push({productId,productName,productPrice,num});
+		});
+    	if(selectedColumns.length==0){
+    		return;
+    		}
+		selectedColumns.forEach(e=>{
+			let child = `<tr align="center">
+		    	<td>`+e.productId+`</td>
+		    	<td>`+e.productName+`</td>
+		    	<td>`+e.productPrice+`</td>
+		    	<td><input type="number" name="selectedProductNum" value=`+e.num+` oninput="totalPriceModify(this)"></td>
+		    	<td><button onclick="deleteProduct(this)">삭제</button></td>
+		    	</tr>`;
+			$('#selectedProducts').append(child);
+		});
+		$('#totalPrice').text($('#selectedProudctsPrice').text());
+		closeBuyProductPopupModal();
+    }
+    
+    function totalPriceModify(target){
+    	if(target.value<0){
+    		target.value=0;
+    		return;
+    	}
+    	let selectedProductNum = $("input[name='selectedProductNum']");
+    	let sum=0;
+    	selectedProductNum.each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			let productPrice = $(this).parent().prev().text();
+			let num = $(this).val();
+			sum+=productPrice*num;
+		});
+    	$('#totalPrice').text(sum);
+    }
+    
+    function deleteProduct(target){
+    	let price = target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
+    	let num = target.parentNode.previousSibling.previousSibling.firstChild.value;
+    	$('#totalPrice').text($('#totalPrice').text()-(price*num));
+    	
+    	let trs = target.parentNode.parentNode;
+    	trs.remove();    	
+    }
+    
+    function reset(){
+    	$('#selectedProducts').children().remove();
+    	$('#totalPrice').text(0);
+    }
+    
+    function payByCash(){
+    	//상품선택되어있는지 체크 해야함!!
+    	
+    	
+    	if (!confirm("현금결제 하시겠습니까?")) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+            alert("아니오")
+        } else {
+            // 확인(예) 버튼 클릭 시 이벤트
+            alert("예")
+        }
+    }
+    
+    function payByCard(){
+    	//상품선택되어있는지 체크 해야함!!
+    	
+    	
+    	if (!confirm("카드결제 하시겠습니까?")) {
+            // 취소(아니오) 버튼 클릭 시 이벤트
+            alert("아니오")
+        } else {
+            // 확인(예) 버튼 클릭 시 이벤트
+            alert("예")
+        }
+    }
+</script>
+</body>
+</html>

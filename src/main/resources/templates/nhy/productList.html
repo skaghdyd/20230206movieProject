@@ -10,6 +10,7 @@
 </style>
 </head>
 <body>
+<button onclick="cancel()">돌아가기</button>
 <h1>상품목록 페이지입니다</h1><hr>
 <button onclick="addProduct()">등록</button>
 <button onclick="deleteProduct()">삭제</button>
@@ -36,6 +37,9 @@
 </table>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
+	function cancel(){
+		location.href='/index.html'
+	}
 	
 	//전체선택
 	let selBtn = false;

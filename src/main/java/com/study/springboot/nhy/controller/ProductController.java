@@ -65,4 +65,18 @@ public class ProductController {
 		int result = productService.modifyProduct(productDTO);
 		return result;
 	}
+	
+	//상품구매페이지
+	@GetMapping("/buy")
+	public String buyProduct() {
+		return "nhy/buyProduct";
+	}
+	
+	//상품검색
+	@ResponseBody
+	@PostMapping("/search")
+	public List<ProductDTO> searchProduct(@RequestParam(value="search_product_name_modal") String product_name) {
+		List<ProductDTO> list = productService.searchProduct(product_name);
+		return list;
+	}
 }
