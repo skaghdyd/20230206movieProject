@@ -67,9 +67,9 @@ public class ProductController {
 	}
 	
 	//상품구매페이지
-	@GetMapping("/buy")
-	public String buyProduct() {
-		return "nhy/buyProduct";
+	@GetMapping("/sell")
+	public String sellProduct() {
+		return "nhy/sellProduct";
 	}
 	
 	//상품검색
