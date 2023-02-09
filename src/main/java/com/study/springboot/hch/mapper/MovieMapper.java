@@ -17,23 +17,21 @@ public interface MovieMapper {
 			+ "values(#{movie_code}, #{movie_name}, #{movie_releaseDate}, #{movie_plot}, #{movie_genre} )")
 	int insertMovie(MovieDTO movieDTO);
 
-//	x
-	@Select("select empno, ename, job, sal from emp_temp")
-	List<MovieDTO> findMovieAll();
+	@Select("select movie_code, movie_name, movie_releaseDate, movie_plot, movie_genre from movie")
+	List<MovieDTO> selectMovieAll();
 	
-//	x
-	@Select("select empno, ename, job, sal from emp_temp where empno = #{ empno }")
-	List<MovieDTO> selectEmpTemp(int empno);
+	@Delete("delete from movie where movie_code = #{movie_code}")
+	int deleteMovie(String movie_code);
 	
-//	x
-	@Update("update emp_temp set "
-			+ "ename = #{ename}, "
-			+ "job = #{job}, "
-			+ "sal = #{sal} "
-			+ "where empno = #{empno}")
+	@Select("select movie_code, movie_name, movie_releaseDate, movie_plot, movie_genre from movie where movie_code = #{ movie_code }")
+	List<MovieDTO> selectMovie(String movie_code);
+	
+	@Update("update movie set "
+			+ "movie_name = #{movie_name}, "
+			+ "movie_releaseDate = #{movie_releaseDate}, "
+			+ "movie_plot = #{movie_plot}, "
+			+ "movie_genre = #{movie_genre} "
+			+ "where movie_code = #{movie_code}")
 	int updateMovie(MovieDTO movieDTO);
-	
-//	x
-	@Delete("delete from emp_temp where empno = #{empno}")
-	int deleteEmpTemp(int empno);
+
 }

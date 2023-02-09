@@ -1,11 +1,21 @@
 package com.study.springboot.hch.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 //영화
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MovieDTO {
-	String movie_Code;
+	String movie_code;
 	String movie_name;
 	String movie_releaseDate;
 	String movie_plot;

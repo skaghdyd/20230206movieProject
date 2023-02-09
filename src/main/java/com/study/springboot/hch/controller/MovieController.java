@@ -1,6 +1,10 @@
 package com.study.springboot.hch.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +16,10 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-@RequestMapping("/movie")
+@RequestMapping("/movie/*")
 public class MovieController {
 
+	@Autowired
 	private MovieMapper movieMapper;
 	
 	@GetMapping("/movieInsertForm")
@@ -25,12 +30,39 @@ public class MovieController {
 	@PostMapping("/movieInsert")
 	public String movieInsert(MovieDTO movieDTO) {
 		int res = movieMapper.insertMovie(movieDTO);
-		System.out.println(res);
-		return "/hch/movie/movieInsertResult";
+		log.info(res + "건 입력");
+		return "redirect:/movie/movieList";
 	}
 	
-	@GetMapping("/movieInsertResult")
-	public String movieInsertResult() {
-		return "/hch/movie/movieInsertResult";
+	@GetMapping("/movieList")
+	public String movieList(Model model) {
+		List<MovieDTO> movieList = movieMapper.selectMovieAll();
+		
+		model.addAttribute("movieList", movieList);
+		return "/hch/movie/movieList";
+	}
+	
+	@GetMapping("/movieDelete")
+	public String delete(String movie_code) {
+		int res = movieMapper.deleteMovie(movie_code);
+		log.info(res + "건 삭제");
+		
+		return "redirect:/movie/movieList";
+	}
+	
+	@GetMapping("/movieUpdateForm")
+	public String movieUpdateForm(Model model, String movie_code) {
+		List<MovieDTO> movieList = movieMapper.selectMovie(movie_code);
+		model.addAttribute("movieList" ,movieList);
+		
+		return "/hch/movie/movieUpdateForm";
+	}
+	
+	@PostMapping("/movieUpdate")
+	public String movieUpdate(MovieDTO movieDTO) {
+		int res = movieMapper.updateMovie(movieDTO);
+		log.info(res + "건 수정");
+		
+		return "redirect:/movie/movieList";
 	}
 }

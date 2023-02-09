@@ -10,4 +10,10 @@ public interface ProductService {
 	public int addProduct(ProductDTO productDTO);
 	
 	public int deleteProduct(List<Integer> selectedColumns);
+	
+	public int modifyProduct(ProductDTO productDTO);
+
+	public ProductDTO selectOneProduct(int product_id);
+
+	public List<ProductDTO> searchProduct(String product_name);
 }

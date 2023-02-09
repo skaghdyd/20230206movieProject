@@ -3,30 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>product list</title>
+<style>
+	table tbody tr:hover {
+		background-color: lightgray;
+	}
+</style>
 </head>
 <body>
+<button onclick="cancel()">돌아가기</button>
 <h1>상품목록 페이지입니다</h1><hr>
 <button onclick="addProduct()">등록</button>
 <button onclick="deleteProduct()">삭제</button>
 <button onclick="modifyProduct()">수정</button>
 <table border="1">
-	<tr align="center">
-		<td onclick="sel()">선택</td>
-		<td>상품번호</td>
-		<td>상품명</td>
-		<td>상품가격</td>
-		<td>상품재고</td>
-	</tr>
-	<tr th:each="list : ${list}" align="center">
-		<td><input class="sel" type="checkbox" name="sel" th:value="${list.product_id}"/></td>
-		<td th:text="${list.product_id}"></td>
-		<td th:text="${list.product_name}"></td>
-		<td th:text="${list.product_price}"></td>
-		<td th:text="${list.product_stock}"></td>
-	</tr>
+	<thead>
+		<tr align="center">
+			<td onclick="sel()">선택</td>
+			<td>상품번호</td>
+			<td>상품명</td>
+			<td>상품가격</td>
+			<td>상품재고</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+			<td><input class="sel" type="checkbox" name="sel" th:value="${list.product_id}"/></td>
+			<td th:text="${list.product_id}"></td>
+			<td th:text="${list.product_name}"></td>
+			<td th:text="${list.product_price}"></td>
+			<td th:text="${list.product_stock}"></td>
+		</tr>
+	</tbody>
 </table>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
+	function cancel(){
+		location.href='/index.html'
+	}
 	
 	//전체선택
 	let selBtn = false;
@@ -78,7 +91,26 @@
 	}
 	
 	function modifyProduct(){
-		//location.href='modify';
+		if(product_id==0){
+			alert('먼저 수정할 행을 선택해주세요.');
+			return;
+		}
+		location.href='modify?product_id='+product_id;
+	}
+	
+    let product_id = 0;
+	function selectRow(target){
+		let tbody = target.parentNode;
+	    let trs = tbody.getElementsByTagName('tr');
+	    for (let i = 0; i < trs.length; i++ ) {
+	        if ( trs[i] == target ) {
+	            trs[i].style.backgroundColor = 'lightgray';
+	            let td = trs[i].getElementsByTagName('td');
+	            product_id = td[1].innerText;
+	        } else {
+	        	trs[i].removeAttribute('style');
+	        }
+	    }
 	}
 </script>
 </body>
