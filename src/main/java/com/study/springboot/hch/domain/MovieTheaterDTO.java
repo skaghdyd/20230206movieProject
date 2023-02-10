@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 public class MovieTheaterDTO {
 
-	String movieTheater_code;
+	int movieTheater_code;
 	String movieTheater_name;
 	String movieTheater_place;
 	String movieTheater_tel;

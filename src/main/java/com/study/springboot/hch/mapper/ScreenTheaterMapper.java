@@ -14,8 +14,8 @@ import com.study.springboot.hch.domain.ScreenTheaterDTO;
 @Mapper
 public interface ScreenTheaterMapper {
 	
-	@Insert("insert into screenTheater(screenTheater_code, screenTheater_name, screenTheater_price) "
-			+ "values(#{screenTheater_code}, #{screenTheater_name}, #{screenTheater_price} )")
+	@Insert("insert into screenTheater(screenTheater_name, screenTheater_price) "
+			+ "values(#{screenTheater_name}, #{screenTheater_price} )")
 	int insertScreenTheater(ScreenTheaterDTO screenTheaterDTO);
 
 //	x

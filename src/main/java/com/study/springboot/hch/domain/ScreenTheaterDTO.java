@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 public class ScreenTheaterDTO {
 
-	String screenTheater_code;
+	int screenTheater_code;
 	String screenTheater_name;
 	int screenTheater_price;
 }

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/basic.html}">
 <head>
-<meta charset="UTF-8">
-<title>product list</title>
 <style>
 	table tbody tr:hover {
 		background-color: lightgray;
 	}
 </style>
 </head>
-<body>
+<div layout:fragment="content">
 <button onclick="cancel()">돌아가기</button>
 <h1>상품목록 페이지입니다</h1><hr>
 <button onclick="addProduct()">등록</button>
@@ -35,8 +35,9 @@
 		</tr>
 	</tbody>
 </table>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script>
+<script layout:fragment="script" th:inline="javascript">
 	function cancel(){
 		location.href='/index.html'
 	}
@@ -113,5 +114,4 @@
 	    }
 	}
 </script>
-</body>
 </html>	

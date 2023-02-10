@@ -43,7 +43,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/movieDelete")
-	public String delete(String movie_code) {
+	public String delete(int movie_code) {
 		int res = movieMapper.deleteMovie(movie_code);
 		log.info(res + "건 삭제");
 		
@@ -51,7 +51,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/movieUpdateForm")
-	public String movieUpdateForm(Model model, String movie_code) {
+	public String movieUpdateForm(Model model, int movie_code) {
 		List<MovieDTO> movieList = movieMapper.selectMovie(movie_code);
 		model.addAttribute("movieList" ,movieList);
 		

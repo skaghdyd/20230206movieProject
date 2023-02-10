@@ -14,27 +14,26 @@ import com.study.springboot.hch.domain.MovieTheaterDTO;
 @Mapper
 public interface MovieTheaterMapper {
 	
-	@Insert("insert into movieTheater(movieTheater_code, movieTheater_name, movieTheater_place, movieTheater_tel) "
-			+ "values(#{movieTheater_code}, #{movieTheater_name}, #{movieTheater_place}, #{movieTheater_tel} )")
+	@Insert("insert into movieTheater(movieTheater_name, movieTheater_place, movieTheater_tel) "
+			+ "values(#{movieTheater_name}, #{movieTheater_place}, #{movieTheater_tel} )")
 	int insertMovieTheater(MovieTheaterDTO MovieTheaterDTO);
 
-//	x
-	@Select("select empno, ename, job, sal from emp_temp")
-	List<MovieDTO> findMovieAll();
+	@Select("select movieTheater_code, movieTheater_name, movieTheater_place, movieTheater_tel from movieTheater")
+	List<MovieTheaterDTO> selectMovieTheaterAll();
 	
-//	x
-	@Select("select empno, ename, job, sal from emp_temp where empno = #{ empno }")
-	List<MovieDTO> selectEmpTemp(int empno);
+
+	@Select("select movieTheater_code, movieTheater_name, movieTheater_place, movieTheater_tel from movieTheater where movieTheater_code = #{ movieTheater_code }")
+	List<MovieTheaterDTO> selectMovieTheater(int movieTheater_code);
 	
-//	x
-	@Update("update emp_temp set "
-			+ "ename = #{ename}, "
-			+ "job = #{job}, "
-			+ "sal = #{sal} "
-			+ "where empno = #{empno}")
-	int updateMovie(MovieDTO movieDTO);
+
+	@Update("update movieTheater set "
+			+ "movieTheater_name = #{movieTheater_name}, "
+			+ "movieTheater_place = #{movieTheater_place}, "
+			+ "movieTheater_tel = #{movieTheater_tel} "
+			+ "where movieTheater_code = #{movieTheater_code}")
+	int updateMovieTheater(MovieTheaterDTO movieDTO);
 	
-//	x
-	@Delete("delete from emp_temp where empno = #{empno}")
-	int deleteEmpTemp(int empno);
+
+	@Delete("delete from movieTheater where movieTheater_code = #{movieTheater_code}")
+	int deleteMovieTheater(int movieTheater_code);
 }

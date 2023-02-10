@@ -19,8 +19,8 @@ public class ScreenScheduleDTO {
 
 	String screenSchedule_date;
 	String screenSchedule_time;
-	String movie_code;
-	String movieTheater_code;
-	String screenTheater_code;
+	int movie_code;
+	int movieTheater_code;
+	int screenTheater_code;
 	String screenSchedule_reservedSeat;
 }

@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class MovieDTO {
-	String movie_code;
+	int movie_code;
 	String movie_name;
 	String movie_releaseDate;
 	String movie_plot;

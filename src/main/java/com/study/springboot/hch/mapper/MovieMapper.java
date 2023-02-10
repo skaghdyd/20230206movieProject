@@ -13,18 +13,18 @@ import com.study.springboot.hch.domain.MovieDTO;
 @Mapper
 public interface MovieMapper {
 	
-	@Insert("insert into movie(movie_code, movie_name, movie_releaseDate, movie_plot, movie_genre) "
-			+ "values(#{movie_code}, #{movie_name}, #{movie_releaseDate}, #{movie_plot}, #{movie_genre} )")
+	@Insert("insert into movie(movie_name, movie_releaseDate, movie_plot, movie_genre) "
+			+ "values(#{movie_name}, #{movie_releaseDate}, #{movie_plot}, #{movie_genre} )")
 	int insertMovie(MovieDTO movieDTO);
 
 	@Select("select movie_code, movie_name, movie_releaseDate, movie_plot, movie_genre from movie")
 	List<MovieDTO> selectMovieAll();
 	
 	@Delete("delete from movie where movie_code = #{movie_code}")
-	int deleteMovie(String movie_code);
+	int deleteMovie(int movie_code);
 	
 	@Select("select movie_code, movie_name, movie_releaseDate, movie_plot, movie_genre from movie where movie_code = #{ movie_code }")
-	List<MovieDTO> selectMovie(String movie_code);
+	List<MovieDTO> selectMovie(int movie_code);
 	
 	@Update("update movie set "
 			+ "movie_name = #{movie_name}, "
