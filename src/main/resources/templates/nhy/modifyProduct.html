@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>add product</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/basic.html}">
+<div layout:fragment="content">
 <h1>상품등록 페이지입니다</h1><hr>
 <form id="addProductForm" action="add" method="post">
 	상품번호 : <input id="product_id" type="text" name="product_id" th:value="${productDTO.product_id}" readonly /><br>
@@ -14,9 +12,8 @@
 </form>
 <button onclick="confirm()">확인</button>
 <button onclick="cancel()">취소</button>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script>
+</div>
+<script layout:fragment="script" th:inline="javascript">
 	function confirm(){
 		let product_id = document.getElementById("product_id").value;
 		let product_name = document.getElementById("product_name").value;
