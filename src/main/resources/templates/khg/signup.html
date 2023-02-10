@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>customer signup</title>
+</head>
+<body>
+<script>
+  const hypenTel = (target) => {
+ target.value = target.value
+   .replace(/[^0-9]/g, '')
+   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+}
+
+</script>
+
+<form id=addCus action="/signup" method="post">
+	이름 :<br><input id="cusName" type="text" name="cusName"/><br>
+	생년월일 :<br><input id="birth" type="text" name="Birth"/><br>
+	전화번호 :<br><input id= "phone" type="text" oninput="hypenTel(this)" maxlength="13" name="Phone"/><br>	
+</form><br>
+<button onclick="confirm()">확인</button>
+<button onclick="cancel()">취소</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>	
+	function confirm(){
+		let cusName = document.getElementById("cusName").value;
+		let birth = document.getElementById("birth").value;
+		let phone = document.getElementById("phone").value;
+		
+		if(cusName==null || cusName==''){
+			alert("이름을 입력해주세요.");
+			return;
+		}
+		if(birth==null || birth==''){
+			alert("생년월일을 입력해주세요.");
+			return;
+		}
+		if(phone==null || phone==''){
+			alert("전화번호를 입력해주세요.");
+			return;
+		}
+		let formData = new FormData($("#addCus")[0]);
+		$.ajax({
+			url:'signup',
+			data:formData,
+			type:'POST',
+			contentType: false,
+			processData: false,
+			success:function(result){
+				if(result==1){
+					alert('고객등록 되었습니다.');
+					location.href='main';
+				} else {
+					alert('고객등록에 실패하였습니다! 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+		
+	
+	function cancel(){
+		location.href='main';
+	}
+</script>
+</html>

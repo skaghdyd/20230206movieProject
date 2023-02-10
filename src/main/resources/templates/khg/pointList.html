@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>point</title>
+</head>
+<body>
+<h1>포인트관리 페이지입니다</h1><hr>
+<button onclick="deleteCus()">삭제</button>
+<button onclick="modifyCus()">수정</button>
+<table border="1">
+	<thead>
+		<tr align="center">
+			<td>선택</td>
+			<td>고객코드</td>
+			<td>이름</td>
+			<td>포인트 내용</td>
+			<td>포인트</td>
+			<td>일시</td>
+			<td>잔여포인트</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+			<td><input class="sel" type="checkbox" name="point" th:value="${list.cusId}"/></td>
+			<td th:text="${list.cusId}"></td>
+			<td th:text="${list.cusName}"></td>
+			<td th:text="${plist.res}"></td>
+			<td th:text="${plist.getP}"></td>
+			<td th:text="${plist.}"></td>
+			<td th:text="${list.cusId}"></td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<button onclick="cancel()">돌아가기</button>
+</body>
+<script>
+
+</script>
+</html>

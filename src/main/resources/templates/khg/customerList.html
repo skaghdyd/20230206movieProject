@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>customer list</title>
+<style>
+	table tbody tr:hover {
+		background-color: lightgray;
+	}
+</style>
+</head>
+<body>
+<h1>고객정보 페이지입니다</h1><hr>
+<button onclick="deleteCus()">삭제</button>
+<button onclick="modifyCus()">수정</button>
+<table border="1">
+	<thead>
+		<tr align="center">
+			<td>선택</td>
+			<td>고객코드</td>
+			<td>이름</td>
+			<td>생년월일</td>
+			<td>전화번호</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+			<td><input class="sel" type="checkbox" name="cus" th:value="${list.cusId}"/></td>
+			<td th:text="${list.cusId}"></td>
+			<td th:text="${list.cusName}"></td>
+			<td th:text="${list.Birth}"></td>
+			<td th:text="${list.Phone}"></td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<button onclick="cancel()">돌아가기</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+	function cancel(){
+		location.href='main'
+	}
+	function deleteCus(){
+		let selectedColumns = new Array();
+		$("input[name='cus']:checked").each(function(i){
+			selectedColumns.push($(this).val());
+		});
+	if(selectedColumns.length==0){
+		alert('삭제할 행을 선택해주세요.');
+		return;
+	}
+	$.ajax({
+		url:'delete',
+		data:{
+			'selectedColumns':selectedColumns
+		},
+		type:'POST',
+		success:function(result){
+			if(result==1){
+				alert('고객정보가 삭제되었습니다.');
+				location.href='list';
+			}else {
+				alert('고객정보삭제에 실패하였습니다! 관리자에게 문의하세요.')
+			}
+		}
+	});
+	}
+	function modifyCus(){
+		if(cusId==0){
+			alert('수정할 행을 선택해주세요.');
+			return;
+		}
+		location.href='modify?cusId='+cusId;
+	}
+	let cusId = 0;
+	function selectRow(target){
+		let tbody = target.parentNode;
+		let trs = tbody.getElementsByTagName('tr');
+		for (let i = 0; i< trs.length; i++) {
+			if(trs[i] == target) {
+				trs[i].style.backgroundColor = 'lightgray';
+				let td = trs[i].getElementsByTagName('td');
+				cusId = td[1].innerText;
+			} else {
+				trs[i].removeAttribute('style');
+			}
+		}
+	}
+</script>
+</html>

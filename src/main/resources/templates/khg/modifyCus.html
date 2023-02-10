@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>정보수정 페이지입니다</h1><hr>
+<form id= "addCusForm" action="/modify" method = "post">
+	고객코드 : <input id="cusId" type="text" name="cusId" th:value="${cus.cusId}"  /><br>
+	이름 : <input id="cusName" type="text" name="cusName" th:value="${cus.cusName}" /><br>
+	생년월일 : <input id="birth" type="text" name="Birth" th:value="${cus.Birth}" /><br>
+	전화번호 : <input id="phone" type="text" name="Phone" th:value="${cus.Phone}"  /><br>
+</form>
+<button onclick="confirm()">수정</button>
+<button onclick="cancel()">취소</button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+	function confirm(){
+		let cusId = document.getElementById("cusId").value;
+		let cusName = document.getElementById("cusName").value;
+		let birth = document.getElementById("birth").value;
+		let phone = document.getElementById("phone").value;
+	
+	if(cusId==null || cusId==''){
+		alert("고객코드를 입력해주세요.");
+		return;
+	}
+	if(cusName==null || cusName==''){
+		alert("이름을 입력해주세요.");
+		return;
+	}
+	if(birth==null || birth==''){
+		alert("생년월일을 입력해주세요.");
+		return;
+	}
+	if(phone==null || phone==''){
+		alert("전화번호를 입력해주세요.");
+		return;
+	}
+	let formData = new FormData($("#addCusForm")[0]);
+	$.ajax({
+		url:'modify',
+		data:formData,
+		type:'POST',
+		contentType: false,
+		processData: false,
+		success:function(result){
+			if(result==1){
+				alert("고객정보가 수정되었습니다.");
+				location.href='list';
+			} else {
+				alert('정보수정에 실패하였습니다! 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+	function cancel(){
+		location.href='list';
+	}
+</script>
+</html>
