@@ -41,6 +41,10 @@
 			alert("전화번호를 입력해주세요.");
 			return;
 		}
+		if(phone.length!=13){
+			alert("전화번호 11자리를 입력해주세요.");
+			return;
+		}
 		let formData = new FormData($("#addCus")[0]);
 		$.ajax({
 			url:'signup',
