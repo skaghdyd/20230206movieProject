@@ -8,7 +8,10 @@
 <a href="/index.html">홈페이지이동</a>
 <h1>상영관등록</h1>
 <form action="/screenTheater/screenTheaterInsert" method="post">
-등록할 영화관이름<input type="text" name="movieTheater_name">
+등록할 영화관이름<select name="movieTheater_name">
+	<option value="">--영화관을 선택하세요.--</option>
+	<option th:each="mTNLst : ${movieTheaterName}" th:value="${movieThea.movieTheater_name}" th:utext="${movieThea.movieTheater_name}"></option>
+</select>
 상영관이름<input type="text" name="screenTheater_name"><br>
 상영관전화번호<input type="text" name="screenTheater_price"><br>
 
