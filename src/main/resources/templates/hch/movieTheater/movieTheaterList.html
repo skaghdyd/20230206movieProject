@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>영화리스트</title>
+</head>
+<body>
+<h1>영화관리스트페이지</h1>
+<table border="1">
+	<tr>
+		<th>영화관코드</th>
+		<th>영화관이름</th>
+		<th>영화관장소</th>
+		<th>영화관전화번호</th>
+	
+	</tr>
+	<tr th:each="movieThea : ${ movieTheaterList }">
+		<td th:text="${ movieThea.movieTheater_code }"></td>
+		<td th:text="${ movieThea.movieTheater_name }"></td>
+		<td th:text="${ movieThea.movieTheater_place }"></td>
+		<td th:text="${ movieThea.movieTheater_tel }"></td>
+		<td><a th:href="@{/movieTheater/movieTheaterUpdateForm(movieTheater_code=${movieThea.movieTheater_code})}">수정</a></td>
+		<td><a th:href="@{/movieTheater/movieTheaterDelete(movieTheater_code=${movieThea.movieTheater_code})}">삭제</a></td>
+
+	</tr>
+</table>
+</body>
+</html>
