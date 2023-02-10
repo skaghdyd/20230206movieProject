@@ -16,4 +16,6 @@ public interface ProductService {
 	public ProductDTO selectOneProduct(int product_id);
 
 	public List<ProductDTO> searchProduct(String product_name);
+	
+	public int sellProduct(List product_list, String user_id, String sales_user_id);
 }
