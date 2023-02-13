@@ -1,5 +1,6 @@
 package com.study.springboot.nhy.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.study.springboot.nhy.domain.ProductDTO;
@@ -18,4 +19,8 @@ public interface ProductService {
 	public List<ProductDTO> searchProduct(String product_name);
 	
 	public int sellProduct(List product_list, String user_id, String sales_user_id);
+
+	public List<HashMap> selectAllSellProduct();
+
+	public List<HashMap> selectSellProductDetails(int sell_no);
 }

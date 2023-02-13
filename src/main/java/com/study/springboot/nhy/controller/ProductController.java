@@ -1,5 +1,6 @@
 package com.study.springboot.nhy.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +86,7 @@ public class ProductController {
 		return list;
 	}
 	
+	//상품판매등록
 	@ResponseBody
 	@PostMapping("/sellProduct")
 	public int sellProduct(
@@ -92,7 +94,6 @@ public class ProductController {
 			HttpServletRequest request
 			) 
 	{
-		System.out.println(params);
 		HttpSession session = request.getSession();
 		String sales_user_id = (String)session.getAttribute("userId");
 		if(sales_user_id==null) {
@@ -110,5 +111,22 @@ public class ProductController {
 	public String test(Model model) {
 		model.addAttribute("ttt","test입니돠~~~ㅓ!~*!~*!*");
 		return "nhy/test";
+	}
+	
+	//상품판매내역페이지
+	@GetMapping("/sellProductList")
+	public String sellProductList(Model model) {
+		List<HashMap> list = productService.selectAllSellProduct();
+		model.addAttribute("list", list);
+		return "nhy/sellProductList";
+	}
+	
+	//상품판매내역상세
+	@ResponseBody
+	@PostMapping("/sellProductDetails")
+	public List<HashMap> sellProductDetails(@RequestParam("sell_no") int sell_no, Model model) {
+		List<HashMap> list = productService.selectSellProductDetails(sell_no);
+		model.addAttribute("list", list);
+		return list;
 	}
 }

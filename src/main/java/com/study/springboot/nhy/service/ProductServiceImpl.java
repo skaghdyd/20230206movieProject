@@ -1,5 +1,8 @@
 package com.study.springboot.nhy.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,12 +68,17 @@ public class ProductServiceImpl implements ProductService {
 	public int sellProduct(List product_list, String user_id, String sales_user_id) {
 		int result = 0;
 		
+		//현재날짜
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String sell_date = sdf.format(c1.getTime());
+		
 		int sell_no = productMapper.getMaxSellNo();
 		for(int i=0; i<product_list.size(); i++) {
 			Map product_map = (Map)product_list.get(i);
 			int product_id = Integer.parseInt((String) product_map.get("product_id"));
 			int product_num = Integer.parseInt((String) product_map.get("product_num"));
-			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id);
+			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date);
 		}
 		
 		if(product_list.size()==result) {
@@ -78,6 +86,18 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	public List<HashMap> selectAllSellProduct() {
+		List<HashMap> list = productMapper.selectAllSellProduct();
+		return list;
+	}
+
+	@Override
+	public List<HashMap> selectSellProductDetails(int sell_no) {
+		List<HashMap> list = productMapper.selectSellProductDetails(sell_no);
+		return list;
 	}
 
 }

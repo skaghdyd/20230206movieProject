@@ -1,5 +1,6 @@
 package com.study.springboot.nhy.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -32,11 +33,19 @@ public interface ProductMapper {
 	@Select("select * from product where product_name like #{product_name}")
 	public List<ProductDTO> searchProduct(String product_name);
 	
-//	@Insert("insert into product_sell "
-//			+ "values(#{sell_no}, #{product_id}, #{user_id}, #{product_num}, #{sales_user_id})")
-	public int sellProduct(@Param("sell_no") int sell_no, @Param("product_id")int product_id, @Param("user_id") String user_id, @Param("product_num") int product_num, @Param("sales_user_id") String sales_user_id);
+	public int sellProduct(
+			@Param("sell_no") int sell_no, 
+			@Param("product_id")int product_id, 
+			@Param("user_id") String user_id, 
+			@Param("product_num") int product_num, 
+			@Param("sales_user_id") String sales_user_id, 
+			@Param("sell_date") String sell_date
+			);
 	
 	@Select("select ifnull(max(sell_no)+1, 1) from product_sell")
 	public int getMaxSellNo();
 	
+	public List<HashMap> selectAllSellProduct();
+	
+	public List<HashMap> selectSellProductDetails(int sell_no);
 }

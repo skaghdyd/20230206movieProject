@@ -5,8 +5,23 @@
 <mapper namespace="com.study.springboot.nhy.mapper.ProductMapper">
 	<insert id="sellProduct">
 		insert into product_sell
-		values(#{sell_no}, #{product_id}, #{user_id}, #{product_num}, #{sales_user_id})
+		values(#{sell_no}, #{product_id}, #{user_id}, #{product_num}, #{sales_user_id}, #{sell_date})
 	</insert>
+	<select id="selectAllSellProduct" resultType="java.util.HashMap">
+		SELECT  sell_no, 
+				user_id, 
+				COUNT(*) AS sales_num, 
+				sales_user_id, 
+				sell_date 
+		FROM product_sell
+		GROUP BY sell_no, user_id, sales_user_id, sell_date
+	</select>
+	<select id="selectSellProductDetails" resultType="java.util.HashMap">
+		SELECT  product_sell.product_id, product.product_name, product.product_price, product_sell.product_num
+		FROM product_sell, product
+		WHERE product_sell.product_id = product.product_id
+		AND product_sell.sell_no = #{sell_no}
+	</select>
 	<!-- <select id="list" resultType="com.study.springboot.Emp">
 		select * from emp_temp
 	</select>
