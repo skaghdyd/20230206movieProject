@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.study.springboot.khg.domain.Cus;
 import com.study.springboot.khg.mapper.CusMapper;
 import com.study.springboot.khg.service.CustomerService;
+import com.study.springboot.nhy.domain.ProductDTO;
 
 
 @Controller
@@ -82,6 +83,15 @@ public class CustomerController {
 		int result = customerService.modifyCus(cus);
 		return result;
 	}
+	
+	//고객검색
+	@ResponseBody
+	@PostMapping("/search")
+	public List<Cus> searchCusId(@RequestParam(value="search_cusId") String cusId) {
+		List<Cus> list = customerService.searchCusId(cusId);
+		return list;
+		}
+	
 	//포인트관리페이지
 	@GetMapping("/point")
 	public String point() {

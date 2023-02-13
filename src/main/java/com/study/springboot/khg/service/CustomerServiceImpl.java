@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.study.springboot.khg.domain.Cus;
 import com.study.springboot.khg.mapper.CusMapper;
+import com.study.springboot.nhy.domain.ProductDTO;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -54,7 +55,14 @@ int result = 0;
 		return 0;
 		
 	}
-
+	
+	@Override
+	public List<Cus> searchCusId(String cusId) {
+		List<Cus> list = cusMapper.searchCusId("%"+cusId+"%");
+		return list;
+	}
+	
+	//포인트
 	@Override
 	public Cus selectOnePo(int cusId) {
 		// TODO Auto-generated method stub
@@ -84,6 +92,8 @@ int result = 0;
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 
 	

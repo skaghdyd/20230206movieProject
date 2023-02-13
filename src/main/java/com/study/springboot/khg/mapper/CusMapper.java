@@ -35,6 +35,8 @@ public interface CusMapper {
 	@Select("select * from customer where cusId=#{cusId}")
 	public Cus selectOneCus(int cusId);
 	
+	@Select("select * from customer where cusId like #{cusId}")
+	public List<Cus> searchCusId(String cusId);
 	
 	//포인트
 	@Select("select * from point where cusId=#{cusId}")

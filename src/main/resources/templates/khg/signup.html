@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/basic.html}">
 <title>customer signup</title>
 </head>
-<body>
+<div layout:fragment="content">
 <script>
   const hypenTel = (target) => {
  target.value = target.value
@@ -23,7 +23,8 @@
 <button onclick="cancel()">취소</button>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script>	
+</div>
+<script layout:fragment="script" th:inline="javascript">	
 	function confirm(){
 		let cusName = document.getElementById("cusName").value;
 		let birth = document.getElementById("birth").value;

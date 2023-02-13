@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/basic.html}">
 <title>Insert title here</title>
 </head>
-<body>
+<div layout:fragment="content">
 <h1>정보수정 페이지입니다</h1><hr>
 <form id= "addCusForm" action="/modify" method = "post">
 	고객코드 : <input id="cusId" type="text" name="cusId" th:value="${cus.cusId}"  /><br>
@@ -14,9 +14,9 @@
 </form>
 <button onclick="confirm()">수정</button>
 <button onclick="cancel()">취소</button>
-</body>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script>
+<script layout:fragment="script" th:inline="javascript">
 	function confirm(){
 		let cusId = document.getElementById("cusId").value;
 		let cusName = document.getElementById("cusName").value;

@@ -3,6 +3,7 @@ package com.study.springboot.khg.service;
 import java.util.List;
 
 import com.study.springboot.khg.domain.Cus;
+import com.study.springboot.nhy.domain.ProductDTO;
 
 
 
@@ -18,6 +19,8 @@ public interface CustomerService {
 	public int deleteCus(List<Integer> selectedColumns);
 
 	public int modifyCus(Cus cus);
+	
+	public List<Cus> searchCusId(String cusId);
 	
 	//포인트
 	public List<Cus> pointFindAll();
