@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상영관리스트</title>
+</head>
+<body>
+<a href="/index.html">홈페이지이동</a>
+<h1>상영관리스트페이지</h1>
+<!-- 수정기능을넣으면 헷갈릴것같아서 빼버림 -->
+<table border="1">
+	<tr>
+		<th>상영관코드</th>
+		<th>영화관이름</th>
+		<th>상영관이름</th>
+		<th>상영관가격</th>
+	
+	</tr>
+	<tr th:each="slst : ${ screenTheaterList }">
+		<td th:text="${ slst.screenTheater_code }"></td>
+		<td th:text="${ slst.movieTheater_name }"></td>
+		<td th:text="${ slst.screenTheater_name }"></td>
+		<td th:text="${ slst.screenTheater_price }"></td>
+		<td><a th:href="@{/screenTheater/screenTheaterDelete(screenTheater_code=${slst.screenTheater_code})}">삭제</a></td>
+
+	</tr>
+</table>
+</body>
+</html>

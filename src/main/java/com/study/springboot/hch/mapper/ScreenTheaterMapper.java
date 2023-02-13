@@ -8,23 +8,24 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.study.springboot.hch.domain.MovieDTO;
 import com.study.springboot.hch.domain.ScreenTheaterDTO;
 
 @Mapper
 public interface ScreenTheaterMapper {
 	
-	@Insert("insert into screenTheater(screenTheater_name, screenTheater_price) "
-			+ "values(#{screenTheater_name}, #{screenTheater_price} )")
+	@Insert("insert into screenTheater(movieTheater_name, screenTheater_name, screenTheater_price) "
+			+ "values(#{movieTheater_name}, #{screenTheater_name}, #{screenTheater_price} )")
 	int insertScreenTheater(ScreenTheaterDTO screenTheaterDTO);
 
-//	x
-	@Select("select empno, ename, job, sal from emp_temp")
-	List<MovieDTO> findMovieAll();
+	@Select("select screenTheater_code, movieTheater_name, screenTheater_name, screenTheater_price from screentheater")
+	List<ScreenTheaterDTO> selectScreenTheaterAll();
+	
+	@Delete("delete from screenTheater where screenTheater_code = #{screenTheater_code}")
+	int deleteScreenTheater(int screenTheater_code);
 	
 //	x
 	@Select("select empno, ename, job, sal from emp_temp where empno = #{ empno }")
-	List<MovieDTO> selectEmpTemp(int empno);
+	List<ScreenTheaterDTO> selectEmpTemp(int empno);
 	
 //	x
 	@Update("update emp_temp set "
@@ -32,9 +33,7 @@ public interface ScreenTheaterMapper {
 			+ "job = #{job}, "
 			+ "sal = #{sal} "
 			+ "where empno = #{empno}")
-	int updateMovie(MovieDTO movieDTO);
+	int updateMovie(ScreenTheaterDTO screenTheaterDTO);
 	
-//	x
-	@Delete("delete from emp_temp where empno = #{empno}")
-	int deleteEmpTemp(int empno);
+
 }
