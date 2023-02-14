@@ -23,4 +23,8 @@ public interface ProductService {
 	public List<HashMap> selectAllSellProduct();
 
 	public List<HashMap> selectSellProductDetails(int sell_no);
+
+	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date);
+
+	public int sellProductDelete(int sell_no);
 }

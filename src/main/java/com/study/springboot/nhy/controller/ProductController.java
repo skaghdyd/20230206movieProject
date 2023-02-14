@@ -129,4 +129,49 @@ public class ProductController {
 		model.addAttribute("list", list);
 		return list;
 	}
+	
+	//상품판매수정페이지
+	@GetMapping("/sellProductModify")
+	public String sellProductModify(int sell_no, String sell_date, Model model) {
+		List<HashMap> list = productService.selectSellProductDetails(sell_no);
+		model.addAttribute("list", list);
+		model.addAttribute("sell_no", sell_no);
+		model.addAttribute("sell_date", sell_date);
+		return "nhy/sellProductModify";
+	}
+	
+	//상품판매수정페이지
+	@ResponseBody
+	@PostMapping("/sellProductModify")
+	public int sellProductModify(
+			@RequestBody Map params,
+			HttpServletRequest request
+			) 
+	{
+		HttpSession session = request.getSession();
+		String sales_user_id = (String)session.getAttribute("userId");
+		if(sales_user_id==null) {
+			sales_user_id = "admin";			
+		}
+		
+		String user_id = (String)params.get("userId");
+		List product_list = (List)params.get("selectedProductsArray");
+		int sell_no = Integer.parseInt((String)params.get("sell_no"));
+		String sell_date = (String)params.get("sell_date");
+		int result = productService.sellProductModify(product_list, user_id, sales_user_id, sell_no, sell_date);
+		
+		return result;
+	}
+	
+	//상품판매삭제
+	@ResponseBody
+	@PostMapping("/sellProductDelete")
+	public int sellProductModify(
+			@RequestBody Map params
+			) 
+	{
+		int sell_no = Integer.parseInt((String)params.get("sell_no"));
+		int result = productService.sellProductDelete(sell_no);		
+		return result;
+	}
 }

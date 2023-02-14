@@ -48,4 +48,7 @@ public interface ProductMapper {
 	public List<HashMap> selectAllSellProduct();
 	
 	public List<HashMap> selectSellProductDetails(int sell_no);
+	
+	@Delete("delete from product_sell where sell_no =#{sell_no}")
+	public int sellProductDelete(int sell_no);	
 }

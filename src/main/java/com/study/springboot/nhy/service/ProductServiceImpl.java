@@ -100,4 +100,29 @@ public class ProductServiceImpl implements ProductService {
 		return list;
 	}
 
+	@Override
+	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date) {
+		//1. 삭제
+		productMapper.sellProductDelete(sell_no);
+		//2. 추가
+		int result = 0;
+		for(int i=0; i<product_list.size(); i++) {
+			Map product_map = (Map)product_list.get(i);
+			int product_id = Integer.parseInt((String) product_map.get("product_id"));
+			int product_num = Integer.parseInt((String) product_map.get("product_num"));
+			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date);
+		}
+		
+		if(product_list.size()==result) {
+			return 1;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int sellProductDelete(int sell_no) {
+		return productMapper.sellProductDelete(sell_no);
+	}
+
 }
