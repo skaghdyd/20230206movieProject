@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
-<head>
+<!-- <head>
 <style>
 	#modal {
 		display: none;
@@ -39,7 +39,7 @@ layout:decorate="~{layout/basic.html}">
 		z-index:-1;
 	}   
 </style>
-</head>
+</head> -->
 <div layout:fragment="content">
 	<button onclick="cancel()">돌아가기</button>
 	<h1>상품판매 페이지입니다</h1>
@@ -74,7 +74,7 @@ layout:decorate="~{layout/basic.html}">
 		<button onclick="pay(1)">카드결제</button>
 		<button onclick="reset()">RESET</button>
 	</div>
-	<div id="modal">
+	<!-- <div id="modal">
 		<div class="modal_content">
 			<h2>상품검색</h2>
 			<div>
@@ -104,6 +104,40 @@ layout:decorate="~{layout/basic.html}">
 			</div>
 		</div>
 		<div class="modal_layer"></div>
+	</div> -->
+	<div id="myModal" class="modal" tabindex="-1" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>상품검색</h2>
+					<input type="text" id="search_product_name_modal" placeholder="상품명을 입력해주세요.">
+					<input type="button" value="검색" onclick="searchProduct()">
+				</div>
+				<div class="modal-body table-responsive">
+					<table class="table" border="1">
+						<thead>
+							<tr align="center">
+								<td>선택</td>
+								<td>상품번호</td>
+								<td>상품명</td>
+								<td>상품가격</td>
+								<td>재고</td>
+								<td>구매수량</td>
+							<tr>
+						</thead>
+						<tbody id="foundProducts">
+						</tbody>
+						<tr>
+						<td colspan="6" align="right">총액 : <span id="selectedProudctsPrice">0</span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<input type="button" value="선택" onclick="selectproducts()">
+				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeBuyProductPopupModal()">
+				</div>
+			</div>
+		</div>
 	</div>
 </div>	
 <script layout:fragment="script" th:inline="javascript">
@@ -111,8 +145,10 @@ layout:decorate="~{layout/basic.html}">
     	let search_product_name = $('#search_product_name').val();
     	if(search_product_name!=''){
 	    	$('input[id=search_product_name_modal]').attr('value',search_product_name);
-	        document.getElementById("modal").style.display="block";
+	        //document.getElementById("modal").style.display="block";
 	        searchProduct();
+	        const modal = new bootstrap.Modal(document.querySelector(".modal"));
+	    	modal.show();
     	} else {
     		alert('상품명을 입력해주세요.');
     		return;
@@ -120,7 +156,8 @@ layout:decorate="~{layout/basic.html}">
     }
    
     function closeBuyProductPopupModal() {
-        document.getElementById("modal").style.display="none";
+        //document.getElementById("modal").style.display="none";
+        $("#myModal").modal('hide');
     }
     
     function cancel(){
