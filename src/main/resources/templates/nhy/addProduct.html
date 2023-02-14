@@ -8,7 +8,6 @@ layout:decorate="~{layout/basic.html}">
 	상품번호 : <input id="product_id" type="text" name="product_id" value=0 readonly /><br>
 	상품명 : <input id="product_name" type="text" name="product_name" /><br>
 	상품가격 : <input id="product_price" type="number" name="product_price" /><br>
-	상품재고 : <input id="product_stock" type="number" name="product_stock" value=0 readonly /><br>
 </form>
 <button onclick="confirm()">확인</button>
 <button onclick="cancel()">취소</button>
@@ -18,7 +17,6 @@ layout:decorate="~{layout/basic.html}">
 		let product_id = document.getElementById("product_id").value;
 		let product_name = document.getElementById("product_name").value;
 		let product_price = document.getElementById("product_price").value;
-		let product_stock = document.getElementById("product_stock").value;
 		
 		if(product_id==null || product_id==''){
 			alert("상품번호에 값을 입력해주세요.");
@@ -30,10 +28,6 @@ layout:decorate="~{layout/basic.html}">
 		}
 		if(product_price==null || product_price==''){
 			alert("상품가격에 값을 입력해주세요.");
-			return;
-		}
-		if(product_stock==null || product_stock==''){
-			alert("상품재고에 값을 입력해주세요.");
 			return;
 		}
 		

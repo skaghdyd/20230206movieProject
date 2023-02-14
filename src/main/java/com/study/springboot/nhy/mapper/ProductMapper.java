@@ -14,11 +14,10 @@ import com.study.springboot.nhy.domain.ProductDTO;
 
 @Mapper
 public interface ProductMapper {
-	@Select("select * from product")
-	public List<ProductDTO> selectAllProduct();
+	public List<HashMap> selectAllProduct();
 	
-	@Insert("insert into product(product_id, product_name, product_price, product_stock) "
-			+ "values(0, #{product_name}, #{product_price}, 0)")
+	@Insert("insert into product(product_id, product_name, product_price) "
+			+ "values(0, #{product_name}, #{product_price})")
 	public int addProduct(ProductDTO productDTO);
 	
 	@Delete("delete from product where product_id=#{product_id}")
@@ -30,8 +29,7 @@ public interface ProductMapper {
 	@Select("select * from product where product_id=#{product_id}")
 	public ProductDTO selectOneProduct(int product_id);
 
-	@Select("select * from product where product_name like #{product_name}")
-	public List<ProductDTO> searchProduct(String product_name);
+	public List<HashMap> searchProduct(String product_name);
 	
 	public int sellProduct(
 			@Param("sell_no") int sell_no, 
@@ -50,5 +48,26 @@ public interface ProductMapper {
 	public List<HashMap> selectSellProductDetails(int sell_no);
 	
 	@Delete("delete from product_sell where sell_no =#{sell_no}")
-	public int sellProductDelete(int sell_no);	
+	public int sellProductDelete(int sell_no);
+	
+	@Select("SELECT ifnull(MAX(receiving_order)+1, 1) FROM product_receiving WHERE product_id=#{product_id}")
+	public int getMaxReceivingOrder(int product_id);
+
+	public int receivingProduct(
+			@Param("product_id") int product_id, 
+			@Param("receiving_order") int receiving_order, 
+			@Param("product_num") int product_num, 
+			@Param("receiving_user_id") String receiving_user_id,	
+			@Param("receiving_date") String receiving_date);
+	
+	@Select("SELECT count(*) FROM product_receiving WHERE product_id = #{product_id}")
+	public int receivingCheck(int product_id);
+	
+	@Select("SELECT receiving_order, COUNT(*) AS receiving_count"
+			+ ", receiving_user_id, receiving_date FROM product_receiving GROUP BY receiving_order, receiving_user_id, receiving_date")
+	public List<HashMap> selectAllReceivingProduct();
+
+	public List<HashMap> selectReceivingProductDetails(int receiving_order);
+
+	public int getCurrentProductStock(int product_id);
 }

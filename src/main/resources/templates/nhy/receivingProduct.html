@@ -4,36 +4,31 @@ xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
 <div layout:fragment="content">
 	<button onclick="cancel()">돌아가기</button>
-	<h1>상품판매 페이지입니다</h1>
+	<h1>상품입고 페이지입니다</h1>
 	<hr>
 	상품검색
 	<div>
 		<input type="text" id="search_product_name" placeholder="상품명을 입력해주세요.">
-		<input type="button" value="검색" id="search_modal_open_btn" onclick="openBuyProductPopupModal()">
+		<input type="button" value="검색" id="search_modal_open_btn" onclick="openReceivingProductPopupModal()">
 	</div>
 	<hr>
-	결제목록
+	입고목록
 	<table border="1">
 		<thead>
 			<tr align="center">
 				<td>상품번호</td>
 				<td>상품명</td>
 				<td>상품가격</td>
-				<td>판매수량</td>
+				<td>입고수량</td>
 				<td></td>
 			<tr>
 		</thead>
 		<tbody id="selectedProducts">
 		</tbody>
 	</table>
-	<div>
-		<hr>
-		총액 : <span id="totalPrice">0</span>
-	</div>
 	<hr>
 	<div>
-		<button onclick="pay(0)">현금결제</button>
-		<button onclick="pay(1)">카드결제</button>
+		<button onclick="receiving()">입고</button>
 		<button onclick="reset()">RESET</button>
 	</div>
 	<div id="myModal" class="modal" tabindex="-1">
@@ -53,19 +48,15 @@ layout:decorate="~{layout/basic.html}">
 								<td>상품명</td>
 								<td>상품가격</td>
 								<td>재고</td>
-								<td>판매수량</td>
 							<tr>
 						</thead>
 						<tbody id="foundProducts">
 						</tbody>
-						<tr>
-						<td colspan="6" align="right">총액 : <span id="selectedProudctsPrice">0</span></td>
-						</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
 					<input type="button" value="선택" onclick="selectProducts()">
-				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeBuyProductPopupModal()">
+				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeReceivingProductPopupModal()">
 				</div>
 			</div>
 		</div>
@@ -88,8 +79,8 @@ layout:decorate="~{layout/basic.html}">
 			selBtn=true;			
 		}
 	}
-	
-    function openBuyProductPopupModal() {
+
+    function openReceivingProductPopupModal() {
     	let search_product_name = $('#search_product_name').val();
     	if(search_product_name!=''){
 	    	$('input[id=search_product_name_modal]').attr('value',search_product_name);
@@ -103,7 +94,7 @@ layout:decorate="~{layout/basic.html}">
     	}
     }
    
-    function closeBuyProductPopupModal() {
+    function closeReceivingProductPopupModal() {
         $("#myModal").modal('hide');
     }
     
@@ -128,34 +119,18 @@ layout:decorate="~{layout/basic.html}">
 			success:function(result){
 				result.forEach(function(productDTO){
 					let child = `<tr align="center">
-				    	<td><input type='checkbox' name="searchedProductSel" onclick="selectedProudctsPriceSum(this)"></td>
+				    	<td><input type='checkbox' name="searchedProductSel"></td>
 				    	<td>`+productDTO.product_id+`</td>
 				    	<td>`+productDTO.product_name+`</td>
 				    	<td>`+productDTO.product_price+`</td>
 				    	<td>`+productDTO.product_stock+`</td>
-				    	<td><input type='number' value="0" oninput="selectedProudctsPriceSum(this)"></td>
 				    	</tr>`;
 					$('#foundProducts').append(child);
 				});
 			}
 		});
     }
-    
-    function selectedProudctsPriceSum(target){
-    	if(target.value!='on' && target.value<0){
-    		target.value=0;
-    		return;
-    	}
-    	let searchedProductSel = $("input[name='searchedProductSel']:checked");
-    	let sum=0;
-    	searchedProductSel.each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
-			let productPrice = $(this).parent().next().next().next().text();
-			let num = $(this).parent().next().next().next().next().next().children('input').val();
-			sum+=productPrice*num;
-		});
-    	$('#selectedProudctsPrice').text(sum);
-    }
-    
+        
     let selectedProductsSet = new Set();
     function selectProducts(){
     	let searchedProductSel = $("input[name='searchedProductSel']:checked"); 
@@ -168,29 +143,12 @@ layout:decorate="~{layout/basic.html}">
 			let productId = $(this).parent().next().text();
 			let productName = $(this).parent().next().next().text();
 			let productPrice = $(this).parent().next().next().next().text();
-			let stock = $(this).parent().next().next().next().next().text();
-			let num = parseInt($(this).parent().next().next().next().next().next().children('input').val());
-			if(stock<=0){
-				selectedColumns=[];
-				alert('재고가 0인 상품을 선택하였습니다.');
-				return false;
-			}
-			if(num<=0){
-				selectedColumns=[];
-				alert('판매수량을 입력해주세요.');
-				return false;
-			}
-			if(num>stock){
-				selectedColumns=[];
-				alert('판매수량이 재고를 초과하였습니다.');
-				return false;
-			}
 			if(selectedProductsSet.has(productId)){
 				selectedColumns=[];
 				alert('이미 선택한 상품은 다시 선택할 수 없습니다.');
 				return false;
 			}
-			selectedColumns.push({productId,productName,productPrice,num});
+			selectedColumns.push({productId,productName,productPrice});
 		});
     	
     	if(selectedColumns.length==0){
@@ -202,37 +160,24 @@ layout:decorate="~{layout/basic.html}">
 		    	<td class="product_id">`+e.productId+`</td>
 		    	<td>`+e.productName+`</td>
 		    	<td>`+e.productPrice+`</td>
-		    	<td><input class="product_num" type="number" name="selectedProductNum" value=`+parseInt(e.num)+` oninput="totalPriceModify(this)"></td>
+		    	<td><input class="product_num" type="number" name="selectedProductNum" value=0 oninput="modifyNum(this)"></td>
 		    	<td><button onclick="deleteProduct(this)">삭제</button></td>
 		    	</tr>`;
 			$('#selectedProducts').append(child);
 			selectedProductsSet.add(e.productId);
 		});
 		$('#totalPrice').text(parseInt($('#totalPrice').text())+parseInt($('#selectedProudctsPrice').text()));
-		closeBuyProductPopupModal();
+		closeReceivingProductPopupModal();
     }
     
-    function totalPriceModify(target){
+    function modifyNum(target){
     	if(target.value<0){
     		target.value=0;
-    		return;
     	}
-    	let selectedProductNum = $("input[name='selectedProductNum']");
-    	let sum=0;
-    	selectedProductNum.each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
-			let productPrice = $(this).parent().prev().text();
-			let num = $(this).val();
-			sum+=productPrice*num;
-		});
-    	$('#totalPrice').text(sum);
     }
     
     function deleteProduct(target){
     	let productId = target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
-    	let price = target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText;
-    	let num = target.parentNode.previousSibling.previousSibling.firstChild.value;
-    	$('#totalPrice').text($('#totalPrice').text()-(price*num));
-    	
     	let trs = target.parentNode.parentNode;
     	trs.remove();
     	selectedProductsSet.delete(productId);
@@ -240,12 +185,11 @@ layout:decorate="~{layout/basic.html}">
     
     function reset(){
     	$('#selectedProducts').children().remove();
-    	$('#totalPrice').text(0);
     	selectedProductsSet.clear();
     	$('#search_product_name').val('');
     }
     
-    function pay(select){
+    function receiving(){
     	if(selectedProductsSet.size==0){
     		alert('선택된 상품이 없습니다.');
     		return;
@@ -259,7 +203,7 @@ layout:decorate="~{layout/basic.html}">
     	for(var i=0; i<selectedProducts.children().length ;i++){
     		if(product_num[i].value<=0){
     			selectedProductsArray = new Array();
-    			alert("판매수량은 1보다 작을 수 없습니다.")
+    			alert("입고수량은 1보다 작을 수 없습니다.")
     			return false;
     		}
 	    	let selectedProductsMap = {
@@ -269,32 +213,23 @@ layout:decorate="~{layout/basic.html}">
 	    	selectedProductsArray.push(selectedProductsMap);
     	}
     	
-    	if (!confirm("결제 하시겠습니까?")) {
+    	if (!confirm("입고 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
             // 확인(예) 버튼 클릭 시 이벤트
         	$.ajax({
-				url:'sellProduct',
+				url:'receivingProduct',
 				type:'POST',
 				contentType:'application/json',
 				data:JSON.stringify(
 						{
 							'selectedProductsArray':selectedProductsArray,
-							'userId':'customer1'
 							}
 						),
 				success:function(result){
-					if(result==-1){
-						alert("판매수량이 재고를 초과하였습니다.");
-						return;
-					} else if(result==0){
-						alert("결제가 완료되었습니다.")
-			            reset();						
-						return;
-					} else {
-						alert("결제 오류 발생! 관리자에게 문의해주세요.")
-					}
+					alert("입고가 완료되었습니다.")
+		            reset();
 				}
 			});
         }

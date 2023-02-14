@@ -29,7 +29,8 @@ public class ProductController {
 	//상품목록페이지
 	@GetMapping("/list")
 	public String selectAll(Model model) {
-		List<ProductDTO> list = productService.selectAllProduct();
+		List<HashMap> list = productService.selectAllProduct();
+		System.out.println(list);
 		model.addAttribute("list", list);
 		return "nhy/productList";
 	}
@@ -81,8 +82,8 @@ public class ProductController {
 	//상품검색
 	@ResponseBody
 	@PostMapping("/search")
-	public List<ProductDTO> searchProduct(@RequestParam(value="search_product_name_modal") String product_name) {
-		List<ProductDTO> list = productService.searchProduct(product_name);
+	public List<HashMap> searchProduct(@RequestParam(value="search_product_name_modal") String product_name) {
+		List<HashMap> list = productService.searchProduct(product_name);
 		return list;
 	}
 	
@@ -173,5 +174,48 @@ public class ProductController {
 		int sell_no = Integer.parseInt((String)params.get("sell_no"));
 		int result = productService.sellProductDelete(sell_no);		
 		return result;
+	}
+	
+	//상품입고페이지
+	@GetMapping("/receivingProduct")
+	public String receivingProduct() {
+		return "nhy/receivingProduct";
+	}
+	
+	//상품입고등록
+	@ResponseBody
+	@PostMapping("/receivingProduct")
+	public int receivingProduct(
+			@RequestBody Map params,
+			HttpServletRequest request
+			) 
+	{
+		HttpSession session = request.getSession();
+		String receiving_user_id = (String)session.getAttribute("userId");
+		if(receiving_user_id==null) {
+			receiving_user_id = "admin";			
+		}
+		
+		List product_list = (List)params.get("selectedProductsArray");
+		int result = productService.receivingProduct(product_list, receiving_user_id);
+		
+		return result;
+	}
+	
+	//상품입고내역페이지
+	@GetMapping("/receivingProductList")
+	public String receivingProductList(Model model) {
+		List<HashMap> list = productService.selectAllReceivingProduct();
+		model.addAttribute("list", list);
+		return "nhy/receivingProductList";
+	}
+	
+	//상품입고내역상세
+	@ResponseBody
+	@PostMapping("/receivingProductDetails")
+	public List<HashMap> receivingProductDetails(@RequestParam("receiving_order") int receiving_order, Model model) {
+		List<HashMap> list = productService.selectReceivingProductDetails(receiving_order);
+		model.addAttribute("list", list);
+		return list;
 	}
 }

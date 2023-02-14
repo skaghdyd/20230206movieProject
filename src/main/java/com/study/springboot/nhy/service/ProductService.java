@@ -6,7 +6,7 @@ import java.util.List;
 import com.study.springboot.nhy.domain.ProductDTO;
 
 public interface ProductService {
-	public List<ProductDTO> selectAllProduct();
+	public List<HashMap> selectAllProduct();
 	
 	public int addProduct(ProductDTO productDTO);
 	
@@ -16,7 +16,7 @@ public interface ProductService {
 
 	public ProductDTO selectOneProduct(int product_id);
 
-	public List<ProductDTO> searchProduct(String product_name);
+	public List<HashMap> searchProduct(String product_name);
 	
 	public int sellProduct(List product_list, String user_id, String sales_user_id);
 
@@ -27,4 +27,10 @@ public interface ProductService {
 	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date);
 
 	public int sellProductDelete(int sell_no);
+
+	public int receivingProduct(List product_list, String receiving_user_id);
+
+	public List<HashMap> selectAllReceivingProduct();
+
+	public List<HashMap> selectReceivingProductDetails(int receiving_order);
 }
