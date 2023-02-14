@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form action="/screenTheater/screenTheaterUpdate" method="post" th:each="screenTheater : ${ screenTheaterList }">
+	상영관코드<input th:value="${screenTheater.screenTheater_code}" readonly><br>
+	영화관이름<input type="text" name="movie_name" th:value="${movie.movie_name}"><br>
+	상영관이름<input type="text" name="movie_releaseDate" th:value="${movie.movie_releaseDate}"><br>
+	상영관가격<input type="text" name="movie_plot" th:value="${movie.movie_plot}"><br>
+	<input type="submit" value="수정">
+</form>
+</body>
+</html>
