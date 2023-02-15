@@ -32,5 +32,5 @@ public interface ProductService {
 
 	public List<HashMap> selectAllReceivingProduct();
 
-	public List<HashMap> selectReceivingProductDetails(int receiving_order);
+	public List<HashMap> selectReceivingProductDetails(int product_id);
 }

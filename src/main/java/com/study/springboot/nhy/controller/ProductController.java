@@ -26,6 +26,12 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+	//상품페이지
+	@GetMapping("/index")
+	public String index() {
+		return "nhy/index_product";
+	}
+	
 	//상품목록페이지
 	@GetMapping("/list")
 	public String selectAll(Model model) {
@@ -213,8 +219,8 @@ public class ProductController {
 	//상품입고내역상세
 	@ResponseBody
 	@PostMapping("/receivingProductDetails")
-	public List<HashMap> receivingProductDetails(@RequestParam("receiving_order") int receiving_order, Model model) {
-		List<HashMap> list = productService.selectReceivingProductDetails(receiving_order);
+	public List<HashMap> receivingProductDetails(@RequestParam("product_id") int product_id, Model model) {
+		List<HashMap> list = productService.selectReceivingProductDetails(product_id);
 		model.addAttribute("list", list);
 		return list;
 	}

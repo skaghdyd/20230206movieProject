@@ -17,18 +17,20 @@ layout:decorate="~{layout/basic.html}">
 	<table border="1">
 		<thead>
 			<tr align="center">
-				<td>입고차수</td>
-				<td>입고상품수</td>
-				<td>등록자</td>
-				<td>등록일자</td>
+				<td>상품번호</td>
+				<td>상품명</td>
+				<td>상품가격</td>
+				<td>총입고횟수</td>
+				<td>총입고수량</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
-				<td class="receiving_order" th:text="${list.receiving_order}"></td>
-				<td th:text="${list.receiving_count}"></td>
-				<td th:text="${list.receiving_user_id}"></td>
-				<td th:text="${list.receiving_date}"></td>
+				<td class="product_id" th:text="${list.product_id}"></td>
+				<td th:text="${list.product_name}"></td>
+				<td th:text="${list.product_price}"></td>
+				<td th:text="${list.receiving_order}"></td>
+				<td th:text="${list.receiving_num}"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -49,10 +51,10 @@ layout:decorate="~{layout/basic.html}">
 </div>
 <script layout:fragment="script" th:inline="javascript">
 	function cancel(){
-		location.href='/index.html'
+		location.href='/product/index'
 	}
 	
-	let receiving_order = 0;
+	let product_id = 0;
 	let receiving_date = '';
 	function selectRow(target){
 		let tbody = target.parentNode;
@@ -61,7 +63,7 @@ layout:decorate="~{layout/basic.html}">
 	        if ( trs[i] == target ) {
 	            trs[i].style.backgroundColor = 'lightgray';
 	            let td = trs[i].getElementsByTagName('td');
-	            receiving_order = td[0].innerText;
+	            product_id = td[0].innerText;
 	            receiving_date = td[3].innerText;
 	        } else {
 	        	trs[i].removeAttribute('style');
@@ -72,7 +74,7 @@ layout:decorate="~{layout/basic.html}">
 			url:'receivingProductDetails',
 			type:'POST',
 			data:{
-				'receiving_order':receiving_order
+				'product_id':product_id
 				},
 			success:function(result){
 				$('#selectedProductDetails').children().remove();				
@@ -81,6 +83,7 @@ layout:decorate="~{layout/basic.html}">
 					<td>`+detail.product_id+`</td>
 					<td>`+detail.product_name+`</td>
 					<td>`+detail.product_price+`</td>
+					<td>`+detail.receiving_order+`</td>
 					<td>`+detail.receiving_num+`</td>
 					</tr>`;
 					$('#selectedProductDetails').append(child);
@@ -90,12 +93,12 @@ layout:decorate="~{layout/basic.html}">
 	}
 	
 	function cancelReceiving(){
-		if(receiving_order==0){
+		if(product_id==0){
 			alert('먼저 입고취소할 데이터를 선택해주세요.');
 			return;
 		}
 		
-		if (!confirm("입고차수["+receiving_order+"]을 입고취소 하시겠습니까?")) {
+		if (!confirm("입고차수["+product_id+"]을 입고취소 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
@@ -105,7 +108,7 @@ layout:decorate="~{layout/basic.html}">
 				type:'POST',
 				contentType:'application/json',
 				data:JSON.stringify({
-					'receiving_order':receiving_order
+					'product_id':product_id
 					}),
 				success:function(result){
 					alert("판매취소가 완료되었습니다.")
@@ -115,16 +118,16 @@ layout:decorate="~{layout/basic.html}">
         }
 	}
 	function modifyReceiving(){
-		if(receiving_order==0){
+		if(product_id==0){
 			alert('먼저 입고수정할 데이터를 선택해주세요.');
 			return;
 		}
 		
-		if (!confirm("입고차수["+receiving_order+"]을 입고수정 하시겠습니까?")) {
+		if (!confirm("입고차수["+product_id+"]을 입고수정 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
-        	location.href="receivingProductModify?receiving_order="+receiving_order+"&receiving_date="+receiving_date;
+        	location.href="receivingProductModify?product_id="+product_id+"&receiving_date="+receiving_date;
         }
 	}
 </script>

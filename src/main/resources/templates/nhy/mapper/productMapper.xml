@@ -3,6 +3,18 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.springboot.nhy.mapper.ProductMapper">
+	<select id="selectAllReceivingProduct" resultType="java.util.HashMap">
+		SELECT 
+			product_receiving.product_id, 
+			product.product_name, 
+			product.product_price, 
+			count(product_receiving.receiving_order) AS receiving_order, 
+			SUM(product_receiving.receiving_num) AS receiving_num 
+		FROM product_receiving
+		LEFT OUTER JOIN product
+		ON product_receiving.product_id = product.product_id
+		GROUP BY product_receiving.product_id, product.product_name, product.product_price
+	</select>
 	<select id="selectAllProduct" resultType="java.util.HashMap">
 		SELECT product_id, product_name, product_price, SUM(product_stock) as product_stock
 		FROM 
@@ -85,10 +97,10 @@
 		AND product_sell.sell_no = #{sell_no}
 	</select>
 	<select id="selectReceivingProductDetails" resultType="java.util.HashMap">
-		SELECT product_receiving.product_id, product.product_name, product.product_price, product_receiving.receiving_num
+		SELECT product_receiving.product_id, product.product_name, product.product_price, product_receiving.receiving_order, product_receiving.receiving_num
 		FROM product_receiving, product
 		WHERE product_receiving.product_id = product.product_id
-		AND product_receiving.receiving_order = #{receiving_order}
+		AND product_receiving.product_id = #{product_id}
 	</select>
 	<insert id="receivingProduct">
 		insert into product_receiving

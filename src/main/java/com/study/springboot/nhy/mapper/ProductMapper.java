@@ -63,11 +63,9 @@ public interface ProductMapper {
 	@Select("SELECT count(*) FROM product_receiving WHERE product_id = #{product_id}")
 	public int receivingCheck(int product_id);
 	
-	@Select("SELECT receiving_order, COUNT(*) AS receiving_count"
-			+ ", receiving_user_id, receiving_date FROM product_receiving GROUP BY receiving_order, receiving_user_id, receiving_date")
 	public List<HashMap> selectAllReceivingProduct();
 
-	public List<HashMap> selectReceivingProductDetails(int receiving_order);
+	public List<HashMap> selectReceivingProductDetails(int product_id);
 
 	public int getCurrentProductStock(int product_id);
 }

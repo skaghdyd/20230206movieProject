@@ -177,8 +177,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<HashMap> selectReceivingProductDetails(int receiving_order) {
-		List<HashMap> list = productMapper.selectReceivingProductDetails(receiving_order);
+	public List<HashMap> selectReceivingProductDetails(int product_id) {
+		List<HashMap> list = productMapper.selectReceivingProductDetails(product_id);
 		return list;
 	}
 
