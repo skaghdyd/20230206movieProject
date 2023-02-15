@@ -63,7 +63,6 @@ table tbody tr:hover {
 					<table class="table" border="1">
 						<thead>
 							<tr align="center">
-								<td>선택</td>
 								<td>고객코드</td>
 								<td>이름</td>
 								<td>포인트내용</td>
@@ -78,7 +77,7 @@ table tbody tr:hover {
 					</table>
 				</div>
 				<div class="modal-footer">
-					<input type="button" value="선택" onclick="selectpoint()"> <input
+					<input type="button" value="확인" onclick="ok()"> <input
 						type="button" id="search_modal_close_btn" value="취소"
 						onclick="closePointModal()">
 				</div>
@@ -87,6 +86,7 @@ table tbody tr:hover {
 	</div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+	
 	function deletePo() {
 		let selectedColumns = new Array();
 		$("input[name='point']:checked").each(function(i){
@@ -155,7 +155,9 @@ table tbody tr:hover {
 	function cancel() {
 		location.href = 'main';
 	}
-	let pDate = '';
+	function ok() {
+		location.href = 'pointList'
+	}
 	function pSearch(){
 		
 		let search_point_name_modal = $('#search_point_name_modal').val();
@@ -174,17 +176,22 @@ table tbody tr:hover {
 			success:function(result){
 				result.forEach(function(cus){
 					let child = `<tr align="center">
-					<td><input type='checkbox' name="searchedPoint" onclick="selectedPoint(this)"></td>
 					<td>`+cus.cusId+`</td>
     				<td>`+cus.cusName+`</td>
     				<td>`+cus.res+`</td>
     				<td>`+cus.getP+`</td>
-    				<td>`+cus.pDate+`</td>
+    				<td>`+cus.pdate+`</td>
     				</tr>`;
     				$('#foundPoint').append(child);
 				});
 			}
 		});
 	}
+	function selectedPoint(){
+		let sum=0;
+		dd.each(function(i){
+			
+		}
+	)}
 </script>
 </html>

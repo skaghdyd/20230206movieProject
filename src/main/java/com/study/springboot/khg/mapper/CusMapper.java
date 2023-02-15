@@ -44,13 +44,13 @@ public interface CusMapper {
 	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId")
 	List<Cus> pointFindAll();
 	
-	@Insert("INSERT INTO point(cusId, pDate, getP, res) VALUES(#{aaa}, now(), '+5000', '신규가입')")
+	@Insert("INSERT INTO point(cusId, pDate, getP, res) VALUES(#{aaa}, DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i%p'), +5000, '신규가입')")
 	int savePo(Cus cus);
 	
 	@Delete("DELETE from point where cusId = #{cusId}")
 	int deletePo(int cusId);
 	
-	@Update("UPDATE point set cusId= #{cusId}, pDate= #{pDate}, getP= #{getP}, res= #{res} where cusId = #{cusId}")
+	@Update("UPDATE point set cusId= #{cusId}, pDate= DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i%p'), getP= #{getP}, res= #{res} where cusId = #{cusId}")
 	int modifyPo(Cus cus);
 	
 	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId and point.cusId like '%${cusId}%'")
@@ -59,4 +59,6 @@ public interface CusMapper {
 	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId")
 	public Cus selectOnePo(int cusId);
 	
+	@Select("select SUM(getP) FROM point WHERE cusId = #{cusId}")
+	int sumPo(int cusId);
 }
