@@ -68,4 +68,13 @@ public interface ProductMapper {
 	public List<HashMap> selectReceivingProductDetails(int product_id);
 
 	public int getCurrentProductStock(int product_id);
+
+	public HashMap receivingProductModify(
+			@Param("product_id") int product_id, 
+			@Param("receiving_order") int receiving_order);
+
+	public int receivingProductModifyAction(
+			@Param("product_id") int product_id, 
+			@Param("receiving_order") int receiving_orde, 
+			@Param("receiving_num") int receiving_num);
 }

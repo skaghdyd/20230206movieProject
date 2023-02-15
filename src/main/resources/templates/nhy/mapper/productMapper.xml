@@ -96,16 +96,34 @@
 		WHERE product_sell.product_id = product.product_id
 		AND product_sell.sell_no = #{sell_no}
 	</select>
+	<select id="receivingProductModify" resultType="java.util.HashMap">
+		SELECT product_receiving.product_id,
+			product.product_name,
+			product.product_price,
+			product_receiving.receiving_order,
+			product_receiving.receiving_num,
+			product_receiving.receiving_user_id,
+			product_receiving.receiving_date
+		FROM product_receiving
+		LEFT OUTER JOIN product
+		ON product_receiving.product_id = product.product_id
+		WHERE product_receiving.product_id = #{product_id} and product_receiving.receiving_order = #{receiving_order}
+	</select>
 	<select id="selectReceivingProductDetails" resultType="java.util.HashMap">
-		SELECT product_receiving.product_id, product.product_name, product.product_price, product_receiving.receiving_order, product_receiving.receiving_num
-		FROM product_receiving, product
-		WHERE product_receiving.product_id = product.product_id
-		AND product_receiving.product_id = #{product_id}
+		SELECT receiving_order, receiving_num, receiving_user_id, receiving_date
+		FROM product_receiving
+		WHERE product_id = #{product_id}
 	</select>
 	<insert id="receivingProduct">
 		insert into product_receiving
 		values(#{product_id}, #{receiving_order}, #{product_num}, #{receiving_user_id}, #{receiving_date})
 	</insert>
+	<update id="receivingProductModifyAction">
+		update product_receiving
+		set receiving_num=#{receiving_num}
+		where product_id=#{product_id}
+		and receiving_order=#{receiving_order}
+	</update>
 	<!-- <select id="list" resultType="com.study.springboot.Emp">
 		select * from emp_temp
 	</select>

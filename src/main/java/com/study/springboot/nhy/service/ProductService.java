@@ -2,6 +2,7 @@ package com.study.springboot.nhy.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.study.springboot.nhy.domain.ProductDTO;
 
@@ -33,4 +34,8 @@ public interface ProductService {
 	public List<HashMap> selectAllReceivingProduct();
 
 	public List<HashMap> selectReceivingProductDetails(int product_id);
+
+	public HashMap receivingProductModify(int product_id, int receiving_order);
+	
+	public int receivingProductModify(Map params);
 }

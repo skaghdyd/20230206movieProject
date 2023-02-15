@@ -12,8 +12,6 @@ layout:decorate="~{layout/basic.html}">
 <div layout:fragment="content">
 	<button onclick="cancel()">돌아가기</button>
 	<h1>상품입고내역 페이지입니다</h1>
-	<button onclick="cancelReceiving()">입고취소</button>
-	<button onclick="modifyReceiving()">입고수정</button>
 	<table border="1">
 		<thead>
 			<tr align="center">
@@ -36,13 +34,14 @@ layout:decorate="~{layout/basic.html}">
 	</table>
 	<hr>
 	<h2>입고상세내역</h2>
+	<button onclick="modifyReceiving()">입고수정</button>
 	<table border="1">
 		<thead>
 			<tr align="center">
-				<td>상품번호</td>
-				<td>상품명</td>
-				<td>상품가격</td>
+				<td>입고차수</td>
 				<td>입고수량</td>
+				<td>등록자</td>
+				<td>등록일</td>
 			</tr>
 		</thead>
 		<tbody id="selectedProductDetails">
@@ -55,8 +54,9 @@ layout:decorate="~{layout/basic.html}">
 	}
 	
 	let product_id = 0;
-	let receiving_date = '';
 	function selectRow(target){
+		receiving_order = 0;
+		receiving_date = '';
 		let tbody = target.parentNode;
 	    let trs = tbody.getElementsByTagName('tr');
 	    for (let i = 0; i < trs.length; i++ ) {
@@ -64,7 +64,6 @@ layout:decorate="~{layout/basic.html}">
 	            trs[i].style.backgroundColor = 'lightgray';
 	            let td = trs[i].getElementsByTagName('td');
 	            product_id = td[0].innerText;
-	            receiving_date = td[3].innerText;
 	        } else {
 	        	trs[i].removeAttribute('style');
 	        }
@@ -79,12 +78,11 @@ layout:decorate="~{layout/basic.html}">
 			success:function(result){
 				$('#selectedProductDetails').children().remove();				
 				result.forEach(function(detail){
-					let child = `<tr>
-					<td>`+detail.product_id+`</td>
-					<td>`+detail.product_name+`</td>
-					<td>`+detail.product_price+`</td>
+					let child = `<tr align="center" onclick="selectDetail(this)">
 					<td>`+detail.receiving_order+`</td>
 					<td>`+detail.receiving_num+`</td>
+					<td>`+detail.receiving_user_id+`</td>
+					<td>`+detail.receiving_date+`</td>
 					</tr>`;
 					$('#selectedProductDetails').append(child);
 				});
@@ -92,42 +90,33 @@ layout:decorate="~{layout/basic.html}">
 		});
 	}
 	
-	function cancelReceiving(){
-		if(product_id==0){
-			alert('먼저 입고취소할 데이터를 선택해주세요.');
-			return;
-		}
-		
-		if (!confirm("입고차수["+product_id+"]을 입고취소 하시겠습니까?")) {
-            // 취소(아니오) 버튼 클릭 시 이벤트
-            alert("취소하였습니다.")
-        } else {
-            // 확인(예) 버튼 클릭 시 이벤트
-        	$.ajax({
-				url:'receivingProductDelete',
-				type:'POST',
-				contentType:'application/json',
-				data:JSON.stringify({
-					'product_id':product_id
-					}),
-				success:function(result){
-					alert("판매취소가 완료되었습니다.")
-					location.href="receivingProductList";
-				}
-			});
-        }
+	let receiving_order = 0;
+	let receiving_date = '';
+	function selectDetail(target){
+		let tbody = target.parentNode;
+	    let trs = tbody.getElementsByTagName('tr');
+	    for (let i = 0; i < trs.length; i++ ) {
+	        if ( trs[i] == target ) {
+	            trs[i].style.backgroundColor = 'lightgray';
+	            let td = trs[i].getElementsByTagName('td');
+	            receiving_order = td[0].innerText;
+	            receiving_date = td[3].innerText;
+	        } else {
+	        	trs[i].removeAttribute('style');
+	        }
+	    }
 	}
+	
 	function modifyReceiving(){
-		if(product_id==0){
+		if(product_id==0 || receiving_order==0){
 			alert('먼저 입고수정할 데이터를 선택해주세요.');
 			return;
 		}
-		
-		if (!confirm("입고차수["+product_id+"]을 입고수정 하시겠습니까?")) {
+		if (!confirm("상품번호["+product_id+"] - 입고차수["+receiving_order+"]을 입고수정 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
-        	location.href="receivingProductModify?product_id="+product_id+"&receiving_date="+receiving_date;
+        	location.href="receivingProductModify?product_id="+product_id+"&receiving_order="+receiving_order;
         }
 	}
 </script>

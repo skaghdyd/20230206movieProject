@@ -182,4 +182,19 @@ public class ProductServiceImpl implements ProductService {
 		return list;
 	}
 
+	@Override
+	public HashMap receivingProductModify(int product_id, int receiving_order) {
+		HashMap map = productMapper.receivingProductModify(product_id, receiving_order);
+		return map;
+	}
+
+	@Override
+	public int receivingProductModify(Map params) {
+		int product_id = Integer.parseInt((String) params.get("product_id"));
+		int receiving_order = Integer.parseInt((String) params.get("receiving_order"));
+		int receiving_num = Integer.parseInt((String) params.get("receiving_num"));
+		int result = productMapper.receivingProductModifyAction(product_id, receiving_order, receiving_num);
+		return result;
+	}
+
 }

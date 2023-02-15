@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/basic.html}">
+<div layout:fragment="content">
+<h1>상품수정 페이지입니다</h1><hr>
+<form id="receivingProductModifyForm" action="receivingProductModify" method="post">
+	상품번호 : <input id="product_id" type="text" name="product_id" th:value="${map.product_id}" readonly /><br>
+	상품명 : <input id="product_name" type="text" name="product_name" th:value="${map.product_name}" readonly /><br>
+	상품가격 : <input id="product_price" type="text" name="product_price" th:value="${map.product_price}" readonly /><br>
+	입고차수 : <input id="receiving_order" type="text" name="receiving_order" th:value="${map.receiving_order}" readonly /><br>
+	입고수량 : <input id="receiving_num" type="number" name="receiving_num" th:value="${map.receiving_num}" /><br>
+</form>
+<button onclick="confirm()">확인</button>
+<button onclick="cancel()">취소</button>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+	function confirm(){
+		let product_id = document.getElementById("product_id").value;
+		let receiving_order = document.getElementById("receiving_order").value;
+		let receiving_num = document.getElementById("receiving_num").value;
+		if(receiving_num==null || receiving_num=='' || receiving_num<=0){
+			alert("입고수량에 값을 입력해주세요.");
+			return;
+		}
+		
+		let formData = new FormData($("#receivingProductModifyForm")[0]);
+		$.ajax({
+			url:'receivingProductModify',
+			contentType:'application/json',
+			data:JSON.stringify({
+				product_id:product_id,
+				receiving_order:receiving_order,
+				receiving_num:receiving_num
+				}),
+			type:'POST',
+			success:function(result){
+				console.log(result)
+				if(result==1){
+					alert('입고 내용이 수정되었습니다.');
+					location.href='receivingProductList';
+				} else {
+					alert('상품추가에 실패하였습니다! 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+	
+	function cancel(){
+		location.href='receivingProductList';
+	}
+</script>
+</html>

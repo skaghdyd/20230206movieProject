@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.study.springboot.nhy.domain.ProductDTO;
 import com.study.springboot.nhy.service.ProductService;
@@ -36,7 +37,6 @@ public class ProductController {
 	@GetMapping("/list")
 	public String selectAll(Model model) {
 		List<HashMap> list = productService.selectAllProduct();
-		System.out.println(list);
 		model.addAttribute("list", list);
 		return "nhy/productList";
 	}
@@ -223,5 +223,27 @@ public class ProductController {
 		List<HashMap> list = productService.selectReceivingProductDetails(product_id);
 		model.addAttribute("list", list);
 		return list;
+	}
+	
+	//상품입고수정페이지
+	@GetMapping("/receivingProductModify")
+	public String receivingProductModify(
+			@RequestParam("product_id") int product_id, 
+			@RequestParam("receiving_order") int receiving_order, 
+			Model model) {
+		HashMap map = productService.receivingProductModify(product_id, receiving_order);
+		model.addAttribute("map", map);
+		return "nhy/receivingProductModify";
+	}
+	
+	//상품입고수정페이지
+	@PostMapping("/receivingProductModify")
+	@ResponseBody
+	public int receivingProductModify(
+			@RequestBody Map params,
+			Model model
+			) {
+		int result = productService.receivingProductModify(params);
+		return result;
 	}
 }
