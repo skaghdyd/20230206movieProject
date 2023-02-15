@@ -1,49 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/basic.html}">
 <title>customer list</title>
 <head>
 <style>
-	table tbody tr:hover {
-		background-color: lightgray;
-	}
+table tbody tr:hover {
+	background-color: lightgray;
+}
 </style>
 </head>
 <div layout:fragment="content">
-<h1>고객정보 페이지입니다</h1><hr>
+	<h1>고객정보 페이지입니다</h1>
+	<hr>
 
-<h2>고객검색</h2>
 	<div>
 		<input type="text" id="search_cusId" placeholder="고객코드를 입력해주세요.">
 		<input type="button" value="검색" onclick="searchCusId()">
+		<button onClick="window.location.reload()">초기화</button>
+		<button onclick="deleteCus()">삭제</button>
+		<button onclick="modifyCus()">수정</button>
 	</div>
-<button onclick="deleteCus()">삭제</button>
-<button onclick="modifyCus()">수정</button>
-<table border="1">
-	<thead>
-		<tr align="center">
-			<td>선택</td>
-			<td>고객코드</td>
-			<td>이름</td>
-			<td>생년월일</td>
-			<td>전화번호</td>
-		</tr>
-	</thead>
-	<tbody id="foundCus">
-		<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
-			<td><input class="sel" type="checkbox" name="cus" th:value="${list.cusId}"/></td>
-			<td th:text="${list.cusId}"></td>
-			<td th:text="${list.cusName}"></td>
-			<td th:text="${list.Birth}"></td>
-			<td th:text="${list.Phone}"></td>
-		</tr>
-	</tbody>
-</table>
-<br>
-<button onclick="cancel()">돌아가기</button>
+	<br>
+	<table border="1">
+		<thead>
+			<tr align="center">
+				<td>선택</td>
+				<td>고객코드</td>
+				<td>이름</td>
+				<td>생년월일</td>
+				<td>전화번호</td>
+			</tr>
+		</thead>
+		<tbody id="foundCus">
+			<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+				<td><input class="sel" type="checkbox" name="cus"
+					th:value="${list.cusId}" /></td>
+				<td th:text="${list.cusId}"></td>
+				<td th:text="${list.cusName}"></td>
+				<td th:text="${list.Birth}"></td>
+				<td th:text="${list.Phone}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<button onclick="cancel()">돌아가기</button>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script layout:fragment="script" th:inline="javascript">
 
 	function cancel(){
@@ -102,6 +106,10 @@ layout:decorate="~{layout/basic.html}">
     		alert('고객코드를 입력해주세요.');
     		return;
     	}
+    	if(search_cusId!='search_id'){
+    		alert('고객정보가 존재하지않습니다.')
+    		return;
+    	}
     	$.ajax({
     		url:'search',
     		data:{
@@ -110,20 +118,18 @@ layout:decorate="~{layout/basic.html}">
     		type:'POST',
     		success:function(result){
     			$('#foundCus').children().remove();
-    			result.forEach(cus => findCusId(cus));
+    			result.forEach(function(cus){
+    				console.log(cus);
+    				let child = `<tr align = "center" onclick="selectRow(this)">
+    					<td><input class="sel" type="checkbox" name="cus" value=`+ cus.cusId +`></td>
+    					<td>`+cus.cusId+`</td>
+    					<td>`+cus.cusName+`</td>
+    					<td>`+cus.birth+`</td>
+    					<td>`+cus.phone+`</td>
+    					</tr>`;
+    				$('#foundCus').append(child);
+    			});
     		}
     	});
     }
-	function findCusId(cus){
-		console.log(cus)
-		let child = `<tr align = "center" onclick="selectRow(this)">
-					<td><input class="sel" type="checkbox" name="cus" value=`+ cus.cusId +`></td>
-					<td>`+cus.cusId+`</td>
-					<td>`+cus.cusName+`</td>
-					<td>`+cus.birth+`</td>
-					<td>`+cus.phone+`</td>
-					</tr>`;
-		$('#foundCus').append(child);
-					
-	}
 </script>

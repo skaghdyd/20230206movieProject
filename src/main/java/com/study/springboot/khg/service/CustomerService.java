@@ -27,10 +27,12 @@ public interface CustomerService {
 	
 	public Cus selectOnePo(int cusId);
 	
-	public int insertPo(Cus cus);
+	public int savePo(Cus cus);
 
 	public int deletePo(List<Integer> selectedColumns);
 	
 	public int modifyPo(Cus cus);
+	
+	public List<Cus> pSearch(String cusId);
 	
 }

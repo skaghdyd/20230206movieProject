@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -38,11 +39,12 @@ public interface CusMapper {
 	@Select("select * from customer where cusId like #{cusId}")
 	public List<Cus> searchCusId(String cusId);
 	
+	
 	//포인트
-	@Select("select * from point where cusId=#{cusId}")
+	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId")
 	List<Cus> pointFindAll();
 	
-	@Insert("INSERT INTO point(pDate, getP, res) VALUES(#{DateTime}, #{getP}, #{res})")
+	@Insert("INSERT INTO point(cusId, pDate, getP, res) VALUES(#{aaa}, now(), '+5000', '신규가입')")
 	int savePo(Cus cus);
 	
 	@Delete("DELETE from point where cusId = #{cusId}")
@@ -51,9 +53,10 @@ public interface CusMapper {
 	@Update("UPDATE point set cusId= #{cusId}, pDate= #{pDate}, getP= #{getP}, res= #{res} where cusId = #{cusId}")
 	int modifyPo(Cus cus);
 	
-	@Select("select * from point where cusId=#{cusId} ORDER BY cusId ASC")
-	List<Cus> findPo(int cusId);
+	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId and point.cusId like '%${cusId}%'")
+	List<Cus> pSearch(String cusId);
 	
-	@Select("select * from point where cusId=#{cusId}")
+	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId")
 	public Cus selectOnePo(int cusId);
+	
 }

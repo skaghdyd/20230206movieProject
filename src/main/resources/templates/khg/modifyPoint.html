@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/basic.html}">
 <title>Insert title here</title>
-</head>
-<body>
+<div layout:fragment="content">
+	<h1>정보수정 페이지입니다</h1>
+	<hr>
+	<form id="addPoForm" action="/modifyPo" method="post">
+		고객코드 : <input id="cusId" type="text" name="cusId" th:value="${cus.cusId}" /><br>
+		이름 : <input id="cusName" type="text" name="cusName" th:value="${cus.cusName}" /><br>
+		포인트내용 : <input id="res" type="text" name="res" th:value="${cus.res}" /><br>
+		포인트 : <input id="getP" type="text" name="getP" th:value="${cus.getP}" /><br>
+		일시 : <input id="pDate" type="text" name="pDate" th:value="${cus.pDate}" /><br>
+	</form>
+	<button onclick="confirm()">수정</button>
+	<button onclick="cancel()">취소</button>
+</div>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script layout:fragment="script" th:inline="javascript">
+	function confirm() {
+		let cusId = document.getElementById("cusId").value;
+		let cusName = document.getElementById("cusName").value;
+		let res = document.getElementById("res").value;
+		let getP = document.getElementById("getP").value;
+		
 
-</body>
+		if (cusId == null || cusId == '') {
+			alert("고객코드를 입력해주세요.");
+			return;
+		}
+		if (cusName == null || cusName == '') {
+			alert("이름을 입력해주세요.");
+			return;
+		}
+		if (res == null || res == '') {
+			alert("포인트내용을 입력해주세요.");
+			return;
+		}
+		if (getP == null || getP == '') {
+			alert("수정할 포인트를 입력해주세요.");
+			return;
+		}
+		
+		
+		let formData = new FormData($("#addPoForm")[0]);
+		$.ajax({
+			url : 'modifyPo',
+			data : formData,
+			type : 'POST',
+			contentType : false,
+			processData : false,
+			success : function(result) {
+				if (result == 1) {
+					alert("포인트정보가 수정되었습니다.");
+					location.href = 'pointList';
+				} else {
+					alert('포인트수정에 실패하였습니다! 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+	function cancel(){
+		location.href='pointList';
+	}
+</script>
 </html>
