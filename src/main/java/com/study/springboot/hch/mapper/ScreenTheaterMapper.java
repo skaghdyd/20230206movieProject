@@ -23,9 +23,9 @@ public interface ScreenTheaterMapper {
 	@Delete("delete from screenTheater where screenTheater_code = #{screenTheater_code}")
 	int deleteScreenTheater(int screenTheater_code);
 	
-//	x
-	@Select("select empno, ename, job, sal from emp_temp where empno = #{ empno }")
-	List<ScreenTheaterDTO> selectEmpTemp(int empno);
+//	수정중
+	@Select("select screenTheater_name from screenTheater where movieTheather_name = #{ movieTheaName }")
+	List<ScreenTheaterDTO> selectCategoryName(String movTheaName);
 	
 //	x
 	@Update("update emp_temp set "
