@@ -18,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
 	ProductMapper productMapper;
 	
 	@Override
-	public List<ProductDTO> selectAllProduct() {
-		List<ProductDTO> list = productMapper.selectAllProduct();
+	public List<HashMap> selectAllProduct() {
+		List<HashMap> list = productMapper.selectAllProduct();
 		return list;
 	}
 
@@ -31,6 +31,15 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public int deleteProduct(List<Integer> selectedColumns) {
+		
+		//입고 내역 체크
+		for(int i=0; i<selectedColumns.size(); i++) {
+			int product_id = selectedColumns.get(i);
+			int result = productMapper.receivingCheck(product_id);
+			if(result!=0) {
+				return -1;
+			}
+		}
 		
 		int result = 0;
 		
@@ -59,13 +68,26 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductDTO> searchProduct(String product_name) {
-		List<ProductDTO> list = productMapper.searchProduct("%"+product_name+"%");
+	public List<HashMap> searchProduct(String product_name) {
+		List<HashMap> list = productMapper.searchProduct("%"+product_name+"%");
 		return list;
 	}
 
 	@Override
 	public int sellProduct(List product_list, String user_id, String sales_user_id) {
+		
+		//현재재고 체크
+		for(int i=0; i<product_list.size(); i++) {
+			Map product_map = (Map)product_list.get(i);
+			int product_id = Integer.parseInt((String) product_map.get("product_id"));
+			int currentStock = productMapper.getCurrentProductStock(product_id);
+			int product_num = Integer.parseInt((String) product_map.get("product_num"));
+			
+			if (product_num > currentStock) {
+				return -1;
+			}
+		}
+		
 		int result = 0;
 		
 		//현재날짜
@@ -123,6 +145,41 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int sellProductDelete(int sell_no) {
 		return productMapper.sellProductDelete(sell_no);
+	}
+
+	@Override
+	public int receivingProduct(List product_list, String receiving_user_id) {
+		int result = 0;
+		
+		//현재날짜
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String receiving_date = sdf.format(c1.getTime());
+		for(int i=0; i<product_list.size(); i++) {
+			Map product_map = (Map)product_list.get(i);
+			int product_id = Integer.parseInt((String) product_map.get("product_id"));
+			int receiving_order = productMapper.getMaxReceivingOrder(product_id);
+			int product_num = Integer.parseInt((String) product_map.get("product_num"));
+			result += productMapper.receivingProduct(product_id, receiving_order, product_num, receiving_user_id, receiving_date);
+		}
+		
+		if(product_list.size()==result) {
+			return 1;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public List<HashMap> selectAllReceivingProduct() {
+		List<HashMap> list = productMapper.selectAllReceivingProduct();
+		return list;
+	}
+
+	@Override
+	public List<HashMap> selectReceivingProductDetails(int product_id) {
+		List<HashMap> list = productMapper.selectReceivingProductDetails(product_id);
+		return list;
 	}
 
 }

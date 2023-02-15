@@ -58,7 +58,7 @@ layout:decorate="~{layout/basic.html}">
 				<td>상품번호</td>
 				<td>상품명</td>
 				<td>상품가격</td>
-				<td>구매수량</td>
+				<td>판매수량</td>
 				<td>삭제</td>
 			<tr>
 		</thead>
@@ -97,7 +97,7 @@ layout:decorate="~{layout/basic.html}">
 						<td>상품명</td>
 						<td>상품가격</td>
 						<td>재고</td>
-						<td>구매수량</td>
+						<td>판매수량</td>
 					<tr>
 				</thead>
 				<tbody id="foundProducts">
@@ -210,7 +210,7 @@ layout:decorate="~{layout/basic.html}">
 			}
 			if(num<=0){
 				selectedColumns=[];
-				alert('구매수량을 입력해주세요.');
+				alert('판매수량을 입력해주세요.');
 				return false;
 			}
 			if(selectedProductsSet.has(productId)){
@@ -284,10 +284,11 @@ layout:decorate="~{layout/basic.html}">
     	
     	let selectedProductsArray = new Array();
     	for(var i=0; i<selectedProducts.children().length ;i++){
-    		/* let selectedProductsMap = new Map();
-    		selectedProductsMap.set(product_id[i].innerHTML,product_num[i].value);
-	    	selectedProductsArray.push(selectedProductsMap); */
-	    	
+    		if(product_num[i].value<=0){
+    			selectedProductsArray = new Array();
+    			alert("판매수량은 1보다 작을 수 없습니다.")
+    			return false;
+    		}
 	    	let selectedProductsMap = {
 	    			product_id : product_id[i].innerHTML, 
 	    			product_num : product_num[i].value

@@ -11,38 +11,38 @@ layout:decorate="~{layout/basic.html}">
 </head>
 <div layout:fragment="content">
 	<button onclick="cancel()">돌아가기</button>
-	<h1>상품판매내역 페이지입니다</h1>
-	<button onclick="cancelSell()">판매취소</button>
-	<button onclick="modifySell()">판매수정</button>
-	<table border="1">
-		<thead>
-			<tr align="center">
-				<td>영수번호</td>
-				<td>고객번호</td>
-				<td>판매상품수</td>
-				<td>판매자</td>
-				<td>판매일자</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
-				<td class="sell_no" th:text="${list.sell_no}"></td>
-				<td th:text="${list.user_id}"></td>
-				<td th:text="${list.sales_num}"></td>
-				<td th:text="${list.sales_user_id}"></td>
-				<td th:text="${list.sell_date}"></td>
-			</tr>
-		</tbody>
-	</table>
-	<hr>
-	<h2>판매상세내역</h2>
+	<h1>상품입고내역 페이지입니다</h1>
+	<button onclick="cancelReceiving()">입고취소</button>
+	<button onclick="modifyReceiving()">입고수정</button>
 	<table border="1">
 		<thead>
 			<tr align="center">
 				<td>상품번호</td>
 				<td>상품명</td>
 				<td>상품가격</td>
-				<td>구매수량</td>
+				<td>총입고횟수</td>
+				<td>총입고수량</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+				<td class="product_id" th:text="${list.product_id}"></td>
+				<td th:text="${list.product_name}"></td>
+				<td th:text="${list.product_price}"></td>
+				<td th:text="${list.receiving_order}"></td>
+				<td th:text="${list.receiving_num}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+	<h2>입고상세내역</h2>
+	<table border="1">
+		<thead>
+			<tr align="center">
+				<td>상품번호</td>
+				<td>상품명</td>
+				<td>상품가격</td>
+				<td>입고수량</td>
 			</tr>
 		</thead>
 		<tbody id="selectedProductDetails">
@@ -54,8 +54,8 @@ layout:decorate="~{layout/basic.html}">
 		location.href='/product/index'
 	}
 	
-	let sell_no = 0;
-	let sell_date = '';
+	let product_id = 0;
+	let receiving_date = '';
 	function selectRow(target){
 		let tbody = target.parentNode;
 	    let trs = tbody.getElementsByTagName('tr');
@@ -63,18 +63,18 @@ layout:decorate="~{layout/basic.html}">
 	        if ( trs[i] == target ) {
 	            trs[i].style.backgroundColor = 'lightgray';
 	            let td = trs[i].getElementsByTagName('td');
-	            sell_no = td[0].innerText;
-	            sell_date = td[4].innerText;
+	            product_id = td[0].innerText;
+	            receiving_date = td[3].innerText;
 	        } else {
 	        	trs[i].removeAttribute('style');
 	        }
 	    }
 	    
 	    $.ajax({
-			url:'sellProductDetails',
+			url:'receivingProductDetails',
 			type:'POST',
 			data:{
-				'sell_no':sell_no
+				'product_id':product_id
 				},
 			success:function(result){
 				$('#selectedProductDetails').children().remove();				
@@ -83,7 +83,8 @@ layout:decorate="~{layout/basic.html}">
 					<td>`+detail.product_id+`</td>
 					<td>`+detail.product_name+`</td>
 					<td>`+detail.product_price+`</td>
-					<td>`+detail.product_num+`</td>
+					<td>`+detail.receiving_order+`</td>
+					<td>`+detail.receiving_num+`</td>
 					</tr>`;
 					$('#selectedProductDetails').append(child);
 				});
@@ -91,42 +92,42 @@ layout:decorate="~{layout/basic.html}">
 		});
 	}
 	
-	function cancelSell(){
-		if(sell_no==0){
-			alert('먼저 판매취소할 데이터를 선택해주세요.');
+	function cancelReceiving(){
+		if(product_id==0){
+			alert('먼저 입고취소할 데이터를 선택해주세요.');
 			return;
 		}
 		
-		if (!confirm("영수번호["+sell_no+"]을 판매취소 하시겠습니까?")) {
+		if (!confirm("입고차수["+product_id+"]을 입고취소 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
             // 확인(예) 버튼 클릭 시 이벤트
         	$.ajax({
-				url:'sellProductDelete',
+				url:'receivingProductDelete',
 				type:'POST',
 				contentType:'application/json',
 				data:JSON.stringify({
-					'sell_no':sell_no
+					'product_id':product_id
 					}),
 				success:function(result){
 					alert("판매취소가 완료되었습니다.")
-					location.href="sellProductList";
+					location.href="receivingProductList";
 				}
 			});
         }
 	}
-	function modifySell(){
-		if(sell_no==0){
-			alert('먼저 판매수정할 데이터를 선택해주세요.');
+	function modifyReceiving(){
+		if(product_id==0){
+			alert('먼저 입고수정할 데이터를 선택해주세요.');
 			return;
 		}
 		
-		if (!confirm("영수번호["+sell_no+"]을 판매수정 하시겠습니까?")) {
+		if (!confirm("입고차수["+product_id+"]을 입고수정 하시겠습니까?")) {
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
-        	location.href="sellProductModify?sell_no="+sell_no+"&sell_date="+sell_date;
+        	location.href="receivingProductModify?product_id="+product_id+"&receiving_date="+receiving_date;
         }
 	}
 </script>
