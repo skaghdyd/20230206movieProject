@@ -13,7 +13,7 @@ layout:decorate="~{layout/basic.html}">
 	</div>
 	<hr>
 	결제목록
-	<table border="1">
+	<table class="table" border="1">
 		<thead>
 			<tr align="center">
 				<td>상품번호</td>
@@ -35,6 +35,10 @@ layout:decorate="~{layout/basic.html}">
 		<button onclick="pay(0)">현금결제</button>
 		<button onclick="pay(1)">카드결제</button>
 		<button onclick="reset()">RESET</button>
+	</div>
+	<br>
+	<div>
+		<button onclick="openSearchCustomerPopupModal()">회원정보입력</button>
 	</div>
 	<div id="myModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-lg">
@@ -66,6 +70,35 @@ layout:decorate="~{layout/basic.html}">
 				<div class="modal-footer">
 					<input type="button" value="선택" onclick="selectProducts()">
 				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeBuyProductPopupModal()">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="searchCustomerModal" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2>고객조회</h2>
+					<input type="text" id="search_customer_name_modal" placeholder="회원명을 입력해주세요.">
+					<input type="button" value="검색" onclick="searchCustomer()">
+				</div>
+				<div class="modal-body table-responsive">
+					<table class="table" border="1">
+						<thead>
+							<tr align="center">
+								<td>고객ID</td>
+								<td>이름</td>
+								<td>생일</td>
+								<td>연락처</td>
+							<tr>
+						</thead>
+						<tbody id="foundCustomers">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<input type="button" value="선택" onclick="selectCustomer()">
+				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeSearchCustomerPopupModal()">
 				</div>
 			</div>
 		</div>
@@ -102,9 +135,26 @@ layout:decorate="~{layout/basic.html}">
     		return;
     	}
     }
+    
+    function openSearchCustomerPopupModal() {
+    	let search_customer_name = $('#search_customer_name').val();
+    	if(search_customer_name!=''){
+	    	$('input[id=search_customer_name_modal]').attr('value',search_customer_name);
+	        //searchCustomer();
+	        const modal = new bootstrap.Modal(document.querySelector("#searchCustomerModal"));
+	    	modal.show();
+    	} else {
+    		alert('회원명을 입력해주세요.');
+    		return;
+    	}
+    }
    
     function closeBuyProductPopupModal() {
         $("#myModal").modal('hide');
+    }
+    
+    function closeSearchCustomerPopupModal() {
+        $("#searchCustomerModal").modal('hide');
     }
     
     function cancel(){
