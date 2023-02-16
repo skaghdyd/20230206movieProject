@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -24,8 +25,8 @@ public interface ScreenTheaterMapper {
 	int deleteScreenTheater(int screenTheater_code);
 	
 //	수정중
-	@Select("select screenTheater_name from screenTheater where movieTheather_name = #{ movieTheaName }")
-	List<ScreenTheaterDTO> selectCategoryName(String movTheaName);
+	@Select("select screenTheater_name from screenTheater where movieTheater_name = #{ movieTheaName }")
+	List<ScreenTheaterDTO> selectCategoryName(@Param("movieTheaName") String movTheaName);
 	
 //	x
 	@Update("update emp_temp set "
