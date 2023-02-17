@@ -58,7 +58,4 @@ public interface CusMapper {
 	
 	@Select("select point.cusId as cusId, customer.cusName as cusName, point.pDate as pDate, point.getP as getP, point.res as res from customer, point where customer.cusId = point.cusId")
 	public Cus selectOnePo(int cusId);
-	
-	@Select("select SUM(getP) FROM point WHERE cusId = #{cusId}")
-	int sumPo(int cusId);
 }

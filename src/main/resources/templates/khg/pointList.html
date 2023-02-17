@@ -16,36 +16,37 @@ table tbody tr:hover {
 
 	<div>
 		<input type="text" id="search_point_name" placeholder="고객코드를 입력해주세요.">
-		<input type="button" value="검색" id="search_modal_open_btn" onclick="openPointModal()"> 
-		<input type="button" value="삭제" onclick="deletePo()"> 
-		<input type="button" value="수정" onclick="modifyPo()">
+		<input type="button" value="검색" id="search_modal_open_btn"
+			onclick="openPointModal()"> <input type="button" value="삭제"
+			onclick="deletePo()"> <input type="button" value="수정"
+			onclick="modifyPo()">
 	</div>
 	<br>
 	<div class="table-responsive">
-	<table class= "table" border="1" >
-		<thead>
-			<tr align="center">
-				<td>선택</td>
-				<td>고객코드</td>
-				<td>이름</td>
-				<td>포인트내용</td>
-				<td>포인트</td>
-				<td>일시</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="plist : ${plist}" align="center"
-				onclick="selectRow(this)">
-				<td><input class="sel" type="checkbox" name="point" 
-					th:value="${plist.cusId}" /></td>
-				<td th:text="${plist.cusId}"></td>
-				<td th:text="${plist.cusName}"></td>
-				<td th:text="${plist.res}"></td>
-				<td th:text="${plist.getP}"></td>
-				<td th:text="${plist.pDate}"></td>
-			</tr>
-		</tbody>
-	</table>
+		<table class="table" border="1">
+			<thead>
+				<tr align="center">
+					<td>선택</td>
+					<td>고객코드</td>
+					<td>이름</td>
+					<td>포인트내용</td>
+					<td>포인트</td>
+					<td>일시</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="plist : ${plist}" align="center"
+					onclick="selectRow(this)">
+					<td><input class="sel" type="checkbox" name="point"
+						th:value="${plist.cusId}" /></td>
+					<td th:text="${plist.cusId}"></td>
+					<td th:text="${plist.cusName}"></td>
+					<td th:text="${plist.res}"></td>
+					<td th:text="${plist.getP}"></td>
+					<td th:text="${plist.pDate}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<br>
 	<button onclick="cancel()">돌아가기</button>
@@ -72,7 +73,8 @@ table tbody tr:hover {
 						</thead>
 						<tr>
 						<tbody id="foundPoint"></tbody>
-						<td colspan="6" align="right">잔여포인트 : <sapn id= "selectedPoint">0</sapn></td>
+						<td colspan="6" align="right">잔여포인트 : <sapn
+								id="selectedPoint">0</sapn></td>
 						</tr>
 					</table>
 				</div>
@@ -148,6 +150,41 @@ table tbody tr:hover {
 		}
 	}
 	
+	function pSearch(){
+		let search_point_name_modal = $('#search_point_name_modal').val();
+		if(search_point_name_modal==''){
+			alert('고객코드를 입력해주세요.');
+			return;
+		}
+		
+		$('#foundPoint').children().remove();
+		$.ajax({
+			url:'pSearch',
+			data:{
+				'search_point_name_modal':search_point_name_modal
+			},
+			type:'POST',
+			success:function(result){
+				if(search_point_name_modal !='search_point_name_modal'){
+					$('#selectedPoint').text(0);
+				}
+				let pSum=0;
+				result.forEach(function(cus){
+					pSum+=parseInt(cus.getP);
+					let child = `<tr align="center">
+					<td>`+cus.cusId+`</td>
+    				<td>`+cus.cusName+`</td>
+    				<td>`+cus.res+`</td>
+    				<td>`+cus.getP+`</td>
+    				<td>`+cus.pdate+`</td>
+    				</tr>`;
+    				$('#foundPoint').append(child);
+    				$('#selectedPoint').text(pSum);
+    				
+				});
+			}
+		});
+	}
 	function closePointModal(){
 		$("#myModal").modal('hide');
 	}
@@ -158,40 +195,6 @@ table tbody tr:hover {
 	function ok() {
 		location.href = 'pointList'
 	}
-	function pSearch(){
-		
-		let search_point_name_modal = $('#search_point_name_modal').val();
-		if(search_point_name_modal==''){
-			alert('고객코드를 입력해주세요.');
-			return;
-		}
-		$('#foundPoint').children().remove();
-		$('#selectedPoint').text(0);
-		$.ajax({
-			url:'pSearch',
-			data:{
-				'search_point_name_modal':search_point_name_modal
-			},
-			type:'POST',
-			success:function(result){
-				result.forEach(function(cus){
-					let child = `<tr align="center">
-					<td>`+cus.cusId+`</td>
-    				<td>`+cus.cusName+`</td>
-    				<td>`+cus.res+`</td>
-    				<td>`+cus.getP+`</td>
-    				<td>`+cus.pdate+`</td>
-    				</tr>`;
-    				$('#foundPoint').append(child);
-				});
-			}
-		});
-	}
-	function selectedPoint(){
-		let sum=0;
-		dd.each(function(i){
-			
-		}
-	)}
+
 </script>
 </html>

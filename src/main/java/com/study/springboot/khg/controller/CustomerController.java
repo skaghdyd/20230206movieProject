@@ -108,7 +108,6 @@ public class CustomerController {
 	@PostMapping("/pSearch")
 	public List<Cus> pSearch(@RequestParam(value = "search_point_name_modal") String cusId) {
 		List<Cus> plist = cusMapper.pSearch(cusId);
-		
 		return plist;
 	}
 
