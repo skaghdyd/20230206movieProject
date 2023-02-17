@@ -84,15 +84,15 @@ layout:decorate="~{layout/basic.html}">
 	</div>
 	<hr>
 	고객검색
-	<div th:each="customer:${customerInfo}">
+	<div>
 		<input type="text" id="search_customer_name" placeholder="고객명을 입력해주세요.">
 		<button onclick="openSearchCustomerPopupModal()">검색</button>
 		<button onclick="customerReset()">RESET</button>
 		<br><br>
-		고객코드 : <input type="text" id="customerId" th:value="${customer.cusId}" readonly><br>
-		이름 : <input type="text" id="customerName" th:value="${customer.cusName}" readonly><br>
-		생년월일 : <input type="text" id="customerBirth" th:value="${customer.birth}" readonly><br>
-		전화번호 : <input type="text" id="customerTel" th:value="${customer.phone}" readonly><br>
+		고객코드 : <input type="text" id="customerId" th:value="${customerInfo.cusId}" readonly><br>
+		이름 : <input type="text" id="customerName" th:value="${customerInfo.cusName}" readonly><br>
+		생년월일 : <input type="text" id="customerBirth" th:value="${customerInfo.birth}" readonly><br>
+		전화번호 : <input type="text" id="customerTel" th:value="${customerInfo.phone}" readonly><br>
 	</div>
 	<hr>
 	<div id="modal">
@@ -406,11 +406,10 @@ layout:decorate="~{layout/basic.html}">
         }
     }
     
-    let customerInfo=[[${customerInfo}]]
-    let cusId=customerInfo[0].cusId;
-    let cusName=customerInfo[0].cusName;
-    let cusBirth=customerInfo[0].birth;
-    let cusTel=customerInfo[0].phone;
+    let cusId=[[${customerInfo.cusId}]];
+    let cusName=[[${customerInfo.cusName}]];
+    let cusBirth=[[${customerInfo.birth}]];
+    let cusTel=[[${customerInfo.phone}]];
     function selectRow(target){
 		let tbody = target.parentNode;
 	    let trs = tbody.getElementsByTagName('tr');

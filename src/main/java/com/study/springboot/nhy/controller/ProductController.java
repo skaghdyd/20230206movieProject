@@ -144,10 +144,19 @@ public class ProductController {
 	public String sellProductModify(int sell_no, String sell_date, String cusId, Model model) {
 		List<HashMap> list = productService.selectSellProductDetails(sell_no);
 		List<HashMap> customerInfo = productService.getCustomerInfoById(cusId);
+		if(customerInfo.size()==0) {
+			HashMap map = new HashMap();;
+			map.put("cusId", "");
+			map.put("cusName", "");
+			map.put("birth", "");
+			map.put("phone", "");
+			customerInfo.add(map);
+		}
 		model.addAttribute("list", list);
 		model.addAttribute("sell_no", sell_no);
 		model.addAttribute("sell_date", sell_date);
-		model.addAttribute("customerInfo", customerInfo);
+		model.addAttribute("customerInfo", customerInfo.get(0));
+		
 		return "nhy/sellProductModify";
 	}
 	
