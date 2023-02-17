@@ -2,6 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
+<head>
+<style>
+	table tbody tr:hover {
+		background-color: lightgray;
+	}
+</style>
+</head>
 <div layout:fragment="content">
 	<button onclick="cancel()">돌아가기</button>
 	<h1>상품판매 페이지입니다</h1>
@@ -27,19 +34,26 @@ layout:decorate="~{layout/basic.html}">
 		</tbody>
 	</table>
 	<div>
-		<hr>
 		총액 : <span id="totalPrice">0</span>
 	</div>
-	<hr>
 	<div>
 		<button onclick="pay(0)">현금결제</button>
 		<button onclick="pay(1)">카드결제</button>
 		<button onclick="reset()">RESET</button>
 	</div>
-	<br>
+	<hr>
+	고객검색
 	<div>
-		<button onclick="openSearchCustomerPopupModal()">회원정보입력</button>
+		<input type="text" id="search_customer_name" placeholder="고객명을 입력해주세요.">
+		<button onclick="openSearchCustomerPopupModal()">검색</button>
+		<button onclick="customerReset()">RESET</button>
+		<br><br>
+		고객코드 : <input type="text" id="customerId" readonly><br>
+		이름 : <input type="text" id="customerName" readonly><br>
+		생년월일 : <input type="text" id="customerBirth" readonly><br>
+		전화번호 : <input type="text" id="customerTel" readonly><br>
 	</div>
+	<hr>
 	<div id="myModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -79,7 +93,7 @@ layout:decorate="~{layout/basic.html}">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h2>고객조회</h2>
-					<input type="text" id="search_customer_name_modal" placeholder="회원명을 입력해주세요.">
+					<input type="text" id="search_customer_name_modal" placeholder="고객명을 입력해주세요.">
 					<input type="button" value="검색" onclick="searchCustomer()">
 				</div>
 				<div class="modal-body table-responsive">
@@ -126,10 +140,9 @@ layout:decorate="~{layout/basic.html}">
     	let search_product_name = $('#search_product_name').val();
     	if(search_product_name!=''){
 	    	$('input[id=search_product_name_modal]').attr('value',search_product_name);
-	        //document.getElementById("modal").style.display="block";
-	        searchProduct();
 	        const modal = new bootstrap.Modal(document.querySelector(".modal"));
 	    	modal.show();
+	        searchProduct();
     	} else {
     		alert('상품명을 입력해주세요.');
     		return;
@@ -140,21 +153,44 @@ layout:decorate="~{layout/basic.html}">
     	let search_customer_name = $('#search_customer_name').val();
     	if(search_customer_name!=''){
 	    	$('input[id=search_customer_name_modal]').attr('value',search_customer_name);
-	        //searchCustomer();
 	        const modal = new bootstrap.Modal(document.querySelector("#searchCustomerModal"));
 	    	modal.show();
+	        searchCustomer();
     	} else {
-    		alert('회원명을 입력해주세요.');
+    		alert('고객명을 입력해주세요.');
     		return;
     	}
+    }
+    
+    function searchCustomer(){
+    	let search_customer_name_modal = $('#search_customer_name_modal').val();
+    	if(search_customer_name_modal==''){
+    		alert('고객명을 입력해주세요.');
+    		return;
+    	}
+    	$('#foundCustomers').children().remove();
+    	$.ajax({
+			url:'searchCustomer',
+			data:{
+				'search_customer_name_modal':search_customer_name_modal
+				},
+			type:'POST',
+			success:function(result){
+				result.forEach(function(customer){
+					let child = `<tr align="center" onclick="selectRow(this)">
+				    	<td>`+customer.cusId+`</td>
+				    	<td>`+customer.cusName+`</td>
+				    	<td>`+customer.birth+`</td>
+				    	<td>`+customer.phone+`</td>
+				    	</tr>`;
+					$('#foundCustomers').append(child);
+				});
+			}
+		});
     }
    
     function closeBuyProductPopupModal() {
         $("#myModal").modal('hide');
-    }
-    
-    function closeSearchCustomerPopupModal() {
-        $("#searchCustomerModal").modal('hide');
     }
     
     function cancel(){
@@ -331,16 +367,19 @@ layout:decorate="~{layout/basic.html}">
 				data:JSON.stringify(
 						{
 							'selectedProductsArray':selectedProductsArray,
-							'userId':'customer1'
+							'userId':'customer1',
+							'cusId':$('#customerId').val(),
+							'totalPrice':$('#totalPrice').text()
 							}
 						),
 				success:function(result){
 					if(result==-1){
 						alert("판매수량이 재고를 초과하였습니다.");
 						return;
-					} else if(result==0){
+					} else if(result==1){
 						alert("결제가 완료되었습니다.")
-			            reset();						
+			            reset();
+						customerReset();
 						return;
 					} else {
 						alert("결제 오류 발생! 관리자에게 문의해주세요.")
@@ -348,6 +387,56 @@ layout:decorate="~{layout/basic.html}">
 				}
 			});
         }
+    }
+    
+    let cusId;
+    let cusName;
+    let cusBirth;
+    let cusTel;
+    function selectRow(target){
+		let tbody = target.parentNode;
+	    let trs = tbody.getElementsByTagName('tr');
+	    for (let i = 0; i < trs.length; i++ ) {
+	        if ( trs[i] == target ) {
+	            trs[i].style.backgroundColor = 'lightgray';
+	            let td = trs[i].getElementsByTagName('td');
+	            cusId = td[0].innerText;
+	            cusName = td[1].innerText;
+	            cusBirth = td[2].innerText;
+	            cusTel = td[3].innerText;
+	        } else {
+	        	trs[i].removeAttribute('style');
+	        }
+	    }
+	}
+    
+    function selectCustomer(){
+    	if(cusId=='' || cusName=='' || cusBirth=='' || cusTel=='' ||
+    		cusId==undefined || cusName==undefined || cusBirth==undefined || cusTel==undefined	){
+    		alert('고객을 선택해주세요.');
+    	}
+    	
+    	$('#customerId').val(cusId)
+    	$('#customerName').val(cusName)
+    	$('#customerBirth').val(cusBirth)
+    	$('#customerTel').val(cusTel)
+    	
+    	closeSearchCustomerPopupModal();
+    }
+    
+    function closeSearchCustomerPopupModal() {
+    	cusId = '';
+        cusName = '';
+        cusBirth = '';
+        cusTel = '';
+        $("#searchCustomerModal").modal('hide');
+    }
+    
+    function customerReset(){
+    	$('#customerId').val('')
+    	$('#customerName').val('')
+    	$('#customerBirth').val('')
+    	$('#customerTel').val('')
     }
 </script>
 </html>

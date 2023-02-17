@@ -109,7 +109,9 @@ public class ProductController {
 		
 		String user_id = (String)params.get("userId");
 		List product_list = (List)params.get("selectedProductsArray");
-		int result = productService.sellProduct(product_list, user_id, sales_user_id);
+		String cusId = (String)params.get("cusId");
+		int totalPrice = Integer.parseInt((String)params.get("totalPrice"));
+		int result = productService.sellProduct(product_list, user_id, sales_user_id, cusId, totalPrice);
 		
 		return result;
 	}
@@ -139,15 +141,17 @@ public class ProductController {
 	
 	//상품판매수정페이지
 	@GetMapping("/sellProductModify")
-	public String sellProductModify(int sell_no, String sell_date, Model model) {
+	public String sellProductModify(int sell_no, String sell_date, String cusId, Model model) {
 		List<HashMap> list = productService.selectSellProductDetails(sell_no);
+		List<HashMap> customerInfo = productService.getCustomerInfoById(cusId);
 		model.addAttribute("list", list);
 		model.addAttribute("sell_no", sell_no);
 		model.addAttribute("sell_date", sell_date);
+		model.addAttribute("customerInfo", customerInfo);
 		return "nhy/sellProductModify";
 	}
 	
-	//상품판매수정페이지
+	//상품판매수정
 	@ResponseBody
 	@PostMapping("/sellProductModify")
 	public int sellProductModify(
@@ -165,7 +169,8 @@ public class ProductController {
 		List product_list = (List)params.get("selectedProductsArray");
 		int sell_no = Integer.parseInt((String)params.get("sell_no"));
 		String sell_date = (String)params.get("sell_date");
-		int result = productService.sellProductModify(product_list, user_id, sales_user_id, sell_no, sell_date);
+		String cusId = (String)params.get("cusId");
+		int result = productService.sellProductModify(product_list, user_id, sales_user_id, sell_no, sell_date, cusId);
 		
 		return result;
 	}
@@ -245,5 +250,13 @@ public class ProductController {
 			) {
 		int result = productService.receivingProductModify(params);
 		return result;
+	}
+	
+	//고객검색
+	@ResponseBody
+	@PostMapping("/searchCustomer")
+	public List<HashMap> searchCustomer(@RequestParam(value="search_customer_name_modal") String cusName) {
+		List<HashMap> list = productService.getCustomerInfoByName(cusName);
+		return list;
 	}
 }

@@ -22,6 +22,7 @@ layout:decorate="~{layout/basic.html}">
 				<td>판매상품수</td>
 				<td>판매자</td>
 				<td>판매일자</td>
+				<td>구매자</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,6 +32,7 @@ layout:decorate="~{layout/basic.html}">
 				<td th:text="${list.sales_num}"></td>
 				<td th:text="${list.sales_user_id}"></td>
 				<td th:text="${list.sell_date}"></td>
+				<td th:text="${list.cusId}"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -56,6 +58,7 @@ layout:decorate="~{layout/basic.html}">
 	
 	let sell_no = 0;
 	let sell_date = '';
+	let cusId = '';
 	function selectRow(target){
 		let tbody = target.parentNode;
 	    let trs = tbody.getElementsByTagName('tr');
@@ -65,6 +68,7 @@ layout:decorate="~{layout/basic.html}">
 	            let td = trs[i].getElementsByTagName('td');
 	            sell_no = td[0].innerText;
 	            sell_date = td[4].innerText;
+	            cusId = td[5].innerText;
 	        } else {
 	        	trs[i].removeAttribute('style');
 	        }
@@ -126,7 +130,7 @@ layout:decorate="~{layout/basic.html}">
             // 취소(아니오) 버튼 클릭 시 이벤트
             alert("취소하였습니다.")
         } else {
-        	location.href="sellProductModify?sell_no="+sell_no+"&sell_date="+sell_date;
+        	location.href="sellProductModify?sell_no="+sell_no+"&sell_date="+sell_date+"&cusId="+cusId;
         }
 	}
 </script>

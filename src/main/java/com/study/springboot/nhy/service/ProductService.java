@@ -19,13 +19,13 @@ public interface ProductService {
 
 	public List<HashMap> searchProduct(String product_name);
 	
-	public int sellProduct(List product_list, String user_id, String sales_user_id);
+	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice);
 
 	public List<HashMap> selectAllSellProduct();
 
 	public List<HashMap> selectSellProductDetails(int sell_no);
 
-	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date);
+	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date, String cusId);
 
 	public int sellProductDelete(int sell_no);
 
@@ -38,4 +38,8 @@ public interface ProductService {
 	public HashMap receivingProductModify(int product_id, int receiving_order);
 	
 	public int receivingProductModify(Map params);
+
+	public List<HashMap> getCustomerInfoById(String cusId);
+
+	public List<HashMap> getCustomerInfoByName(String cusName);
 }

@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int sellProduct(List product_list, String user_id, String sales_user_id) {
+	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice) {
 		
 		//현재재고 체크
 		for(int i=0; i<product_list.size(); i++) {
@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
 			int product_id = Integer.parseInt((String) product_map.get("product_id"));
 			int currentStock = productMapper.getCurrentProductStock(product_id);
 			int product_num = Integer.parseInt((String) product_map.get("product_num"));
-			
+
 			if (product_num > currentStock) {
 				return -1;
 			}
@@ -100,8 +100,11 @@ public class ProductServiceImpl implements ProductService {
 			Map product_map = (Map)product_list.get(i);
 			int product_id = Integer.parseInt((String) product_map.get("product_id"));
 			int product_num = Integer.parseInt((String) product_map.get("product_num"));
-			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date);
+			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date, cusId);
 		}
+		
+		//포인트 적립 : 총 구매금액의 3%
+		productMapper.addCustomerPoint(cusId, sell_date, totalPrice*0.03, "상품구매");
 		
 		if(product_list.size()==result) {
 			return 1;
@@ -123,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date) {
+	public int sellProductModify(List product_list, String user_id, String sales_user_id, int sell_no, String sell_date, String cusId) {
 		//1. 삭제
 		productMapper.sellProductDelete(sell_no);
 		//2. 추가
@@ -132,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
 			Map product_map = (Map)product_list.get(i);
 			int product_id = Integer.parseInt((String) product_map.get("product_id"));
 			int product_num = Integer.parseInt((String) product_map.get("product_num"));
-			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date);
+			result += productMapper.sellProduct(sell_no, product_id, user_id, product_num, sales_user_id, sell_date, cusId);
 		}
 		
 		if(product_list.size()==result) {
@@ -197,4 +200,15 @@ public class ProductServiceImpl implements ProductService {
 		return result;
 	}
 
+	@Override
+	public List<HashMap> getCustomerInfoByName(String cusName) {
+		List<HashMap> map = productMapper.getCustomerInfo(null,cusName);
+		return map;
+	}
+
+	@Override
+	public List<HashMap> getCustomerInfoById(String cusId) {
+		List<HashMap> map = productMapper.getCustomerInfo(cusId,null);
+		return map;
+	}
 }

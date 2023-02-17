@@ -37,7 +37,8 @@ public interface ProductMapper {
 			@Param("user_id") String user_id, 
 			@Param("product_num") int product_num, 
 			@Param("sales_user_id") String sales_user_id, 
-			@Param("sell_date") String sell_date
+			@Param("sell_date") String sell_date,
+			@Param("cusId") String cusId
 			);
 	
 	@Select("select ifnull(max(sell_no)+1, 1) from product_sell")
@@ -77,4 +78,15 @@ public interface ProductMapper {
 			@Param("product_id") int product_id, 
 			@Param("receiving_order") int receiving_orde, 
 			@Param("receiving_num") int receiving_num);
+
+	public void addCustomerPoint(
+			@Param("cusId")String cusId, 
+			@Param("sell_date")String sell_date, 
+			@Param("point")double point, 
+			@Param("res")String res);
+
+	public List<HashMap> getCustomerInfo(
+			@Param("cusId") String cusId,
+			@Param("cusName") String cusName
+			);
 }

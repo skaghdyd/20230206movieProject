@@ -79,16 +79,33 @@
 	</select>
 	<insert id="sellProduct">
 		insert into product_sell
-		values(#{sell_no}, #{product_id}, #{user_id}, #{product_num}, #{sales_user_id}, #{sell_date})
+		values(#{sell_no}, #{product_id}, #{user_id}, #{product_num}, #{sales_user_id}, #{sell_date}, #{cusId})
+	</insert>
+	<insert id="addCustomerPoint">
+		insert into point
+		values(#{cusId}, #{sell_date}, #{point}, #{res})
 	</insert>
 	<select id="selectAllSellProduct" resultType="java.util.HashMap">
 		SELECT  sell_no, 
 				user_id, 
 				COUNT(*) AS sales_num, 
 				sales_user_id, 
-				sell_date 
+				sell_date,
+				cusId
 		FROM product_sell
-		GROUP BY sell_no, user_id, sales_user_id, sell_date
+		GROUP BY sell_no, user_id, sales_user_id, sell_date, cusId
+	</select>
+	<select id="getCustomerInfo" resultType="java.util.HashMap">
+		SELECT cusId, cusName, birth, phone 
+		FROM customer 
+		<where>
+		<if test="cusId != null">
+			cusId = #{cusId}
+		</if>
+		<if test="cusName != null">
+			cusName LIKE CONCAT('%',#{cusName},'%')
+		</if>
+		</where>
 	</select>
 	<select id="selectSellProductDetails" resultType="java.util.HashMap">
 		SELECT  product_sell.product_id, product.product_name, product.product_price, product_sell.product_num
