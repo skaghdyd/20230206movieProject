@@ -21,10 +21,23 @@
 	<option>--상영관을 선택하세요.--</option>
 	</select><br>
 날짜 선택<input type="date" name="screenSchedule_date" ><br>
-영화선택<select id="movieName" name="movie_name">
+첫번째영화선택<select id="movieName" name="movie_name">
 	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
-</select><br>
-시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00" step="300"  required>
+</select>&nbsp;
+시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
+두번째영화선택<select id="movieName" name="movie_name">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+</select>&nbsp;
+시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
+세번째영화선택<select id="movieName" name="movie_name">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+</select>&nbsp;
+시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
+네번째영화선택<select id="movieName" name="movie_name">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+</select>&nbsp;
+시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
+	<input type="submit" value="등록">
 </form>
 
 <script>
