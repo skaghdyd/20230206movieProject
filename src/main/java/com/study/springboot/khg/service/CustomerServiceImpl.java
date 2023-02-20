@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	// 고객선택
 	@Override
-	public Cus selectOneCus(int cusId) {
+	public Cus selectOneCus(String cusId) {
 		Cus cus = cusMapper.selectOneCus(cusId);
 		return cus;
 	}
@@ -46,11 +46,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 	// 고객삭제
 	@Override
-	public int deleteCus(List<Integer> selectedColumns) {
+	public int deleteCus(List<String> selectedColumns) {
 		int result = 0;
 
 		for (int i = 0; i < selectedColumns.size(); i++) {
-			int cusId = selectedColumns.get(i);
+			String cusId = selectedColumns.get(i);
 			result += cusMapper.delete(cusId);
 		}
 
@@ -65,23 +65,31 @@ public class CustomerServiceImpl implements CustomerService {
 	// 고객검색
 	@Override
 	public List<Cus> searchCusId(String cusId) {
-		List<Cus> list = cusMapper.searchCusId("%" + cusId + "%");
+		List<Cus> list = cusMapper.searchCusId("%"+cusId+"%");
 		return list;
 	}
 
-	// 포인트
+	// 포인트 고객선택후 수정
 	@Override
-	public Cus selectOnePo(int cusId) {
+	public Cus selectOnePo(String cusId) {
 		Cus cus = cusMapper.selectOnePo(cusId);
 		return cus;
+		
 	}
-
+	//포인트 검색
+		@Override
+		public List<Cus> pSearch(String cusId) {
+			List<Cus> plist = cusMapper.pSearch("+cusId+");
+			return plist;
+		}
+		
 	@Override
 	public List<Cus> pointFindAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	//신규가입 포인트
 	@Override
 	public int savePo(Cus cus) {
 		// 현재날짜
@@ -91,13 +99,13 @@ public class CustomerServiceImpl implements CustomerService {
 		int res1 = cusMapper.savePo(cus);
 		return res1;
 	}
-
+	//포인트삭제
 	@Override
-	public int deletePo(List<Integer> selectedColumns) {
+	public int deletePo(List<String> selectedColumns) {
 		int result = 0;
 
 		for (int i = 0; i < selectedColumns.size(); i++) {
-			int cusId = selectedColumns.get(i);
+			String cusId = selectedColumns.get(i);
 			result += cusMapper.deletePo(cusId);
 		}
 
@@ -107,17 +115,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return 0;
 	}
-
+	//포인트수정
 	@Override
 	public int modifyPo(Cus cus) {
 		int result = cusMapper.modifyPo(cus);
 		return result;
 	}
 
-	@Override
-	public List<Cus> pSearch(String cusId) {
-		List<Cus> plist = cusMapper.pSearch("+cusId+");
-		return plist;
-	}
+	
+	
+	
 
 }

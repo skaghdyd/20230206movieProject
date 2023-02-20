@@ -108,10 +108,6 @@ table tbody tr:hover {
     		alert('고객코드를 입력해주세요.');
     		return;
     	}
-    	if(search_cusId!='search_id'){
-    		alert('고객정보가 존재하지않습니다.')
-    		return;
-    	}
     	$.ajax({
     		url:'search',
     		data:{
@@ -121,7 +117,6 @@ table tbody tr:hover {
     		success:function(result){
     			$('#foundCus').children().remove();
     			result.forEach(function(cus){
-    				console.log(cus);
     				let child = `<tr align = "center" onclick="selectRow(this)">
     					<td><input class="sel" type="checkbox" name="cus" value=`+ cus.cusId +`></td>
     					<td>`+cus.cusId+`</td>

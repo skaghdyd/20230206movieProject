@@ -12,27 +12,33 @@ public interface CustomerService {
 	//고객관리
 	public List<Cus> findAll();	
 	
-	public Cus selectOneCus(int cusId);
+	public Cus selectOneCus(String cusId);
 
 	public int insert(Cus cus);
 
-	public int deleteCus(List<Integer> selectedColumns);
+	public int deleteCus(List<String> selectedColumns);
 
 	public int modifyCus(Cus cus);
 	
-	public List<Cus> searchCusId(String cusId);
+	List<Cus> searchCusId(String cusId);
 	
 	//포인트
 	public List<Cus> pointFindAll();
 	
-	public Cus selectOnePo(int cusId);
+	public Cus selectOnePo(String cusId);
 	
 	public int savePo(Cus cus);
 
-	public int deletePo(List<Integer> selectedColumns);
+	public int deletePo(List<String> selectedColumns);
 	
 	public int modifyPo(Cus cus);
+
+	List<Cus> pSearch(String cusId);
+
 	
-	public List<Cus> pSearch(String cusId);
+	
+	
+
+	
 	
 }
