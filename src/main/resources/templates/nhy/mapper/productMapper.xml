@@ -141,6 +141,11 @@
 		where product_id=#{product_id}
 		and receiving_order=#{receiving_order}
 	</update>
+	<update id="useCoupon">
+		update event
+		set event_count = event_count - 1
+		where event_name =#{event_name}
+	</update>
 	<!-- <select id="list" resultType="com.study.springboot.Emp">
 		select * from emp_temp
 	</select>

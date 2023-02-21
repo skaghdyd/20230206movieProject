@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice) {
+	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice, String event_name) {
 		
 		//현재재고 체크
 		for(int i=0; i<product_list.size(); i++) {
@@ -104,15 +104,29 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		//포인트 적립 : 총 구매금액의 3%
-		productMapper.addCustomerPoint(cusId, sell_date, totalPrice*0.03, "상품구매");
+		if(!cusId.equals("")) {
+			productMapper.addCustomerPoint(cusId, sell_date, totalPrice*0.03, "상품구매");
+		}
+		
+		//쿠폰 사용 기능 추가
+		if(!event_name.equals("0")) {
+			int useCouponResult = productMapper.useCoupon(event_name);
+			System.out.println("useCouponResult >>> " + useCouponResult);
+		}
 		
 		if(product_list.size()==result) {
 			return 1;
 		}
 		
+		
 		return 0;
 	}
 	
+	private void useCoupon(String event_name) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public List<HashMap> selectAllSellProduct() {
 		List<HashMap> list = productMapper.selectAllSellProduct();
