@@ -10,33 +10,33 @@
 <body>
 <a href="/index.html">홈페이지이동</a>
 <h1>상영스케줄등록</h1>
-<form>
-영화관이름<select id="movieTheaName" name="movieTheater_name"  onchange="categoryChange(this)">
+<form action="screenScheduleInsert" method="post">
+영화관이름<select id="movieTheaName" name="movieTheater_code"  onchange="categoryChange(this)">
 	<option>--영화관을 선택하세요.--</option>
-	<option th:each="mTLst : ${mTLst}" th:value="${mTLst.movieTheater_name}" th:utext="${mTLst.movieTheater_name}"></option>
+	<option th:each="mTLst : ${mTLst}" th:value="${mTLst.movieTheater_code}" th:utext="${mTLst.movieTheater_name}"></option>
 	</select>
 	<br>
 
-상영관이름<select id="screenTheaName" name="screenTheater_name">
+상영관이름<select id="screenTheaName" name="screenTheater_code">
 	<option>--상영관을 선택하세요.--</option>
 	</select><br>
 날짜 선택<input type="date" name="screenSchedule_date" ><br>
-첫번째영화선택<select id="movieName" name="movie_name">
-	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+첫번째영화선택<select id="movieName" name="firstMovie_code">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_code}" th:utext="${mLst.movie_name}"></option>
 </select>&nbsp;
-시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
-두번째영화선택<select id="movieName" name="movie_name">
-	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+시간선택<input type="time" name="firstMovie_time" min="08:00" max="24:00"  required><br>
+두번째영화선택<select id="movieName" name="secondMovie_code">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_code}" th:utext="${mLst.movie_name}"></option>
 </select>&nbsp;
-시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
-세번째영화선택<select id="movieName" name="movie_name">
-	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+시간선택<input type="time" name="secondMovie_time" min="08:00" max="24:00"  required><br>
+세번째영화선택<select id="movieName" name="thirdMovie_code">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_code}" th:utext="${mLst.movie_name}"></option>
 </select>&nbsp;
-시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
-네번째영화선택<select id="movieName" name="movie_name">
-	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_name}" th:utext="${mLst.movie_name}"></option>
+시간선택<input type="time" name="thirdMovie_time" min="08:00" max="24:00"  required><br>
+네번째영화선택<select id="movieName" name="fourthMovie_code">
+	<option th:each="mLst : ${mLst}"  th:value="${mLst.movie_code}" th:utext="${mLst.movie_name}"></option>
 </select>&nbsp;
-시간선택<input type="time" name="screenSchedule_time" min="08:00" max="24:00"  required><br>
+시간선택<input type="time" name="fourthMovie_time" min="08:00" max="24:00"  required><br>
 	<input type="submit" value="등록">
 </form>
 
@@ -61,7 +61,7 @@ function categoryChange(e) {
         	$.each(res, function(index, value) {
  
         		var opt = document.createElement("option");
-        		opt.value = value.screenTheater_name;
+        		opt.value = value.screenTheater_code;
         		opt.innerHTML = value.screenTheater_name;
         		target.appendChild(opt);
         	});

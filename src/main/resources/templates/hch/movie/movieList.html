@@ -9,7 +9,7 @@
 <h1>영화리스트페이지</h1>
 <table border="1">
 	<tr>
-		<th>영화코드</th>
+		<!-- <th>영화코드</th> -->
 		<th>영화이름</th>
 		<th>개봉일</th>
 		<th>줄거리</th>
@@ -17,7 +17,7 @@
 	
 	</tr>
 	<tr th:each="movie : ${ movieList }">
-		<td th:text="${ movie.movie_code }"></td>
+		<!-- <td th:text="${ movie.movie_code }"></td> -->
 		<td th:text="${ movie.movie_name }"></td>
 		<td th:text="${ movie.movie_releaseDate }"></td>
 		<td th:text="${ movie.movie_plot }"></td>

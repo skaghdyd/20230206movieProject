@@ -18,7 +18,7 @@ import lombok.ToString;
 public class ScreenTheaterDTO {
 
 	int screenTheater_code;
-	String movieTheater_name;
+	String movieTheater_code;
 	String screenTheater_name;
 	int screenTheater_price;
 }
