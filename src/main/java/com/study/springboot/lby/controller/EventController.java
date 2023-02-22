@@ -44,6 +44,11 @@ public class EventController {
 		return "/lby/eventList";
 	}
 	
+	@GetMapping("/indexEvent")
+		public String indexEvent(){
+		return "/lby/indexEvent";
+	}
+	
 }
 
 
