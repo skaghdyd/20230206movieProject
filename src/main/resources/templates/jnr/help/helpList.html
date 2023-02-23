@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/basic.html}">
+<div layout:fragment="content">
+	<h1>도움말</h1>
+	<hr>
+	<form action="helpSearch">
+		<select name="type">
+			<option value="A">선택</option>
+			<option value="S">제목</option>
+			<option value="N">내용</option>
+		</select>
+		<input type="text" name="helpSearch" />
+		<input type="submit" value="검색" />
+	</form>
+	<table class="table">
+		<tr>
+			<th>글번호</th>
+			<th>제목</th>
+			<th>내용</th>
+			<th>작성자</th>
+			<th>수정</th>
+			<th>삭제</th>
+		</tr>
+		<tr th:each="help : ${helpList}">
+			<td th:text="${ help.help_id }"></td>
+			<td th:text="${ help.help_title }"></td>
+			<td th:text="${ help.help_content }"></td>
+			<td th:text="${ help.help_writer}"></td>
+			<td>
+				<button th:onclick="'location.href=\'' + @{/help/helpUpdateForm(help_id=${help.help_id})} + '\''">수정</button>
+			</td>
+			<td>
+				<button th:onclick="'location.href=\'' + @{/help/helpDelete(help_id=${help.help_id})} + '\''">삭제</button>
+			</td>
+		</tr>
+	</table>
+	<button onclick="location.href='/help/helpInsertForm'">작성</button>
+</div>
+</html>
+
+

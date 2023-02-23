@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.springboot.jnr.mapper.HelpMapper">
+	<select id="findAllHelp" resultType="com.study.springboot.jnr.domain.HelpDTO">
+		select help_id, help_title, help_content, help_writer from help
+	<where>
+		<if test=" type == 'S'.toString()">
+			help_title like CONCAT('%',#{helpSearch},'%')
+		</if>
+		<if test=" type == 'N'.toString()">
+			help_content like CONCAT('%',#{helpSearch},'%')
+		</if>
+	</where>
+	</select>
+</mapper>
