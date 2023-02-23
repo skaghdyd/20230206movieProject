@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
+layout:decorate="~{layout/iframe.html}">
 <head>
 <style>
 	table tbody tr:hover {
@@ -10,7 +10,6 @@ layout:decorate="~{layout/basic.html}">
 </style>
 </head>
 <div layout:fragment="content">
-	<button onclick="cancel()">돌아가기</button>
 	<h1>상품입고내역 페이지입니다</h1>
 	<table class="table" border="1">
 		<thead>
@@ -47,7 +46,7 @@ layout:decorate="~{layout/basic.html}">
 		<tbody id="selectedProductDetails">
 		</tbody>
 	</table>
-</div>
+</div>	
 <script layout:fragment="script" th:inline="javascript">
 	function cancel(){
 		location.href='/product/index'
@@ -120,4 +119,3 @@ layout:decorate="~{layout/basic.html}">
         }
 	}
 </script>
-</html>

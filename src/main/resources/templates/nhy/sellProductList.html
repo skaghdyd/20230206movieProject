@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/iframe.html}">
 <head>
 <style>
-	table tbody tr:hover {
-		background-color: lightgray;
-	}
+table tbody tr:hover {
+	background-color: lightgray;
+}
 </style>
 </head>
 <div layout:fragment="content">
-	<button onclick="cancel()">돌아가기</button>
 	<h1>상품판매내역 페이지입니다</h1>
 	<button onclick="cancelSell()">판매취소</button>
 	<button onclick="modifySell()">판매수정</button>

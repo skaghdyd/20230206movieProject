@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.study.springboot.khg.domain.Cus;
 import com.study.springboot.khg.mapper.CusMapper;
 import com.study.springboot.khg.service.CustomerService;
-import com.study.springboot.nhy.domain.ProductDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -135,5 +134,7 @@ public class CustomerController {
 		int result = customerService.deletePo(selectedColumns);
 		return result;
 	}
+	
+	
 
 }

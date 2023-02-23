@@ -3,12 +3,69 @@
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
 <div layout:fragment="content">
-<h1>상품 인덱스 페이지 입니다!!</h1>
-<hr>
-<a href="list">남호용의 상품목록 페이지로 접속</a><hr>
-<a href="receivingProduct">남호용의 상품입고 페이지로 접속</a><hr>
-<a href="receivingProductList">남호용의 상품입고내역 페이지로 접속</a><hr>
-<a href="sell">남호용의 상품판매 페이지로 접속</a><hr>
-<a href="sellProductList">남호용의 상품판매내역 페이지로 접속</a><hr>
+	<button style="border:1px solid black" class="btn" onclick="list()">상품목록</button>
+	<button style="border:1px solid black" class="btn" onclick="receivingProduct()">상품입고</button>
+	<button style="border:1px solid black" class="btn" onclick="receivingProductList()">상품입고내역</button>
+	<button style="border:1px solid black" class="btn" onclick="sell()">상품판매</button>
+	<button style="border:1px solid black" class="btn" onclick="sellProductList()">상품판매내역</button>
+	<hr>
+	<div id="view">
+		<iframe id="iframe" src="" style="display:block; width:80vw; height: 100vh"></iframe>
+	</div>
+</div>
+<script layout:fragment="script">
+	function list(){
+		$.ajax({
+			url:'list',
+			type:'GET',
+			success:function(result){
+				/* $('#iframe').empty();
+				$('#iframe').append(result); */
+				$('#iframe').attr("src", "list");
+			}
+		});
+	}
+	
+	function receivingProduct(){
+		$.ajax({
+			url:'receivingProduct',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "receivingProduct");
+			}
+		});
+	}
+	
+	function receivingProductList(){
+		$.ajax({
+			url:'receivingProductList',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "receivingProductList");
+			}
+		});
+	}
+	
+	function sell(){
+		$.ajax({
+			url:'sell',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "sell");
+			}
+		});
+	}
+	
+	function sellProductList(){
+		$.ajax({
+			url:'sellProductList',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "sellProductList");
+			}
+		});
+	}
+	
+</script>
 </body>
 </html>
