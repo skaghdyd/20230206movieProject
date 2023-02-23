@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
-<div layout:fragment="content">
+<div layout:fragment="menu">
 	<button style="border:1px solid black" class="btn" onclick="movieInsertForm()">영화등록</button>
 	<button style="border:1px solid black" class="btn" onclick="movieList()">영화리스트</button>
 	<button style="border:1px solid black" class="btn" onclick="movieTheaterInsertForm()">영화관등록</button>
@@ -11,7 +11,8 @@ layout:decorate="~{layout/basic.html}">
 	<button style="border:1px solid black" class="btn" onclick="screenTheaterList()">상영관리스트</button>
 	<button style="border:1px solid black" class="btn" onclick="screenScheduleInsertForm()">상영스케줄등록</button>
 	<button style="border:1px solid black" class="btn" onclick="screenScheduleList()">상영스케줄리스트</button>
-	<hr>
+</div>
+<div layout:fragment="content">
 	<div id="view">
 		<iframe id="iframe" src="" style="display:block; width:80vw; height: 100vh"></iframe>
 	</div>

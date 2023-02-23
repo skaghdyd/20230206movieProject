@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
-<div layout:fragment="content">
+<div layout:fragment="menu">
 	<button style="border:1px solid black" class="btn" onclick="list()">상품목록</button>
 	<button style="border:1px solid black" class="btn" onclick="receivingProduct()">상품입고</button>
 	<button style="border:1px solid black" class="btn" onclick="receivingProductList()">상품입고내역</button>
 	<button style="border:1px solid black" class="btn" onclick="sell()">상품판매</button>
 	<button style="border:1px solid black" class="btn" onclick="sellProductList()">상품판매내역</button>
-	<hr>
+</div>
+<div layout:fragment="content">
 	<div id="view">
 		<iframe id="iframe" src="" style="display:block; width:80vw; height: 100vh"></iframe>
 	</div>

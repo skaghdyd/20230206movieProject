@@ -23,8 +23,7 @@ public class MovieController {
 	private MovieMapper movieMapper;
 	
 	@GetMapping("/index")
-	public String indexPage(Model model) {
-		model.addAttribute("title", "영화관페이지");
+	public String indexPage() {
 		return "/hch/index_movie";
 	}
 	

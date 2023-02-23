@@ -30,8 +30,7 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@GetMapping("/main")
-	public String main(Model model) {
-		model.addAttribute("title", "고객관리페이지");
+	public String main() {
 		return "khg/main";
 	}
 

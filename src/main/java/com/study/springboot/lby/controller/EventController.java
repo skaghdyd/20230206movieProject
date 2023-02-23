@@ -38,15 +38,14 @@ public class EventController {
 	}
 	
 	@GetMapping("/search")
-		public String search(Model model,String search,String type) {
+	public String search(Model model,String search,String type) {
 		List<EventDTO> eventList=eventMapper.findAllEventDTO(search, type);
 		model.addAttribute("eventList",eventList);
 		return "/lby/eventList";
 	}
 	
 	@GetMapping("/indexEvent")
-		public String indexEvent(Model model){
-		model.addAttribute("title", "쿠폰페이지");
+	public String indexEvent(){
 		return "/lby/indexEvent";
 	}
 	
