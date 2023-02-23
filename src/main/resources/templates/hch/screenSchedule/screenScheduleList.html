@@ -8,26 +8,26 @@
 <h1>영화스케줄페이지</h1>
 <table border="1">
 	<tr>
-		<th>영화코드</th>
+		<!-- <th>영화코드</th> -->
 		<th>날짜</th>
 		<th>영화관</th>
 		<th>상영관</th>
 		<th>1번째 영화제목</th><!-- 제목이 뜨게했으면 좋겠다 -->
 		<th>1번째 영화시간</th>
-		<th>1번째 영화좌석</th>
+		<th>1번째 영화 예매좌석</th>
 		<th>2번째 영화제목</th><!-- 제목이 뜨게했으면 좋겠다 -->
 		<th>2번째 영화시간</th>
-		<th>2번째 영화좌석</th>
+		<th>2번째 영화 예매좌석</th>
 		<th>3번째 영화제목</th><!-- 제목이 뜨게했으면 좋겠다 -->
 		<th>3번째 영화시간</th>
-		<th>3번째 영화좌석</th>
+		<th>3번째 영화 예매좌석</th>
 		<th>4번째 영화제목</th><!-- 제목이 뜨게했으면 좋겠다 -->
 		<th>4번째 영화시간</th>
-		<th>4번째 영화좌석</th>
+		<th>4번째 영화 예매좌석</th>
 	
 	</tr>
 	<tr th:each="screScheLst: ${ screScheLst }" >
-		<td th:text="${ screScheLst.screenSchedule_code }"></td>
+		<!-- <td th:text="${ screScheLst.screenSchedule_code }"></td> -->
 		<td th:text="${ screScheLst.screenSchedule_date }"></td>
 		<td th:text="${ screScheLst.movieTheater_name }"></td>
 		<td th:text="${ screScheLst.screenTheater_name }"></td>
