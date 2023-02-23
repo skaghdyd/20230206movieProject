@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>글 내용 수정</title>
-</head>
-<body>
-
-<form action="/help/helpUpdate" method="post" th:each="help : ${ helpList }">
-	id<input type="text" name="help_id" th:value="${help.help_id}" readonly><br>
-	제목<input type="text" name="help_title" th:value="${help.help_title}"><br>
-	내용<input type="text" name="help_content" th:value="${help.help_content}"><br>
-	작성자<input type="text" name="help_writer" th:value="${help.help_writer}"><br>
-	<input type="submit" value="수정">
-</form>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/basic.html}">
+<div layout:fragment="content">
+	<h1>도움말 수정</h1>
+	<hr>
+	<form action="/help/helpUpdate" method="post" th:each="help : ${ helpList }">
+		글번호<input type="text" name="help_id" th:value="${help.help_id}" readonly><br>
+		제목<input type="text" name="help_title" th:value="${help.help_title}"><br>
+		내용<input type="text" name="help_content" th:value="${help.help_content}"><br>
+		작성자<input type="text" name="help_writer" th:value="${help.help_writer}"><br>
+		<input type="submit" value="수정">
+		<input type="button" onclick="location.href='/help/helpList'" value="취소">
+	</form>
+</div>	
+<script layout:fragment="script" th:inline="javascript">
+</script>
 </html>
