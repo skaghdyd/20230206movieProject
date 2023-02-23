@@ -22,6 +22,11 @@ public class MovieController {
 	@Autowired
 	private MovieMapper movieMapper;
 	
+	@GetMapping("/index")
+	public String indexPage() {
+		return "/hch/index_movie";
+	}
+	
 	@GetMapping("/movieInsertForm")
 	public String movieInsertForm() {
 		return "/hch/movie/movieInsertForm";
