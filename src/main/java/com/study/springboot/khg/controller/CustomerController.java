@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.study.springboot.khg.domain.Cus;
 import com.study.springboot.khg.mapper.CusMapper;
 import com.study.springboot.khg.service.CustomerService;
-import com.study.springboot.nhy.domain.ProductDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -66,14 +65,14 @@ public class CustomerController {
 	// 고객삭제
 	@PostMapping("/delete")
 	@ResponseBody
-	public int deleteCus(@RequestParam(value = "selectedColumns[]") List<Integer> selectedColumns) {
+	public int deleteCus(@RequestParam(value = "selectedColumns[]") List<String> selectedColumns) {
 		int result = customerService.deleteCus(selectedColumns);
 		return result;
 	}
 
 	// 고객정보수정페이지로 넘어가기
 	@GetMapping("/modify")
-	public String update(int cusId, Model model) {
+	public String update(String cusId, Model model) {
 		Cus cus = customerService.selectOneCus(cusId);
 		model.addAttribute("cus", cus);
 		return "khg/modifyCus";
@@ -110,10 +109,11 @@ public class CustomerController {
 		List<Cus> plist = cusMapper.pSearch(cusId);
 		return plist;
 	}
+	
 
 	// 포인트수정페이지로 넘어가기
 	@GetMapping("/modifyPo")
-	public String pupdate(int cusId, Model model) {
+	public String pupdate(String cusId, Model model) {
 		Cus cus = customerService.selectOnePo(cusId);
 		model.addAttribute("cus", cus);
 		return "khg/modifyPoint";
@@ -130,9 +130,11 @@ public class CustomerController {
 	// 포인트삭제
 	@PostMapping("/deletePo")
 	@ResponseBody
-	public int deletePo(@RequestParam(value = "selectedColumns[]") List<Integer> selectedColumns) {
+	public int deletePo(@RequestParam(value = "selectedColumns[]") List<String> selectedColumns) {
 		int result = customerService.deletePo(selectedColumns);
 		return result;
 	}
+	
+	
 
 }

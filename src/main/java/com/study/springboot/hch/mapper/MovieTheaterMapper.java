@@ -37,6 +37,6 @@ public interface MovieTheaterMapper {
 	@Delete("delete from movieTheater where movieTheater_code = #{movieTheater_code}")
 	int deleteMovieTheater(int movieTheater_code);
 
-	@Select("select movieTheater_name from movieTheater")
+	@Select("select movieTHeater_code, movieTheater_name from movieTheater")
 	List<MovieTheaterDTO> selectMovieTheaterNames();
 }

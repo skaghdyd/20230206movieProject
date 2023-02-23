@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-	layout:decorate="~{layout/basic.html}">
+	layout:decorate="~{layout/iframe.html}">
 <title>Insert title here</title>
 <div layout:fragment="content">
 	<h1>정보수정 페이지입니다</h1>
 	<hr>
 	<form id="addPoForm" action="/modifyPo" method="post">
-		고객코드 : <input id="cusId" type="text" name="cusId" th:value="${cus.cusId}" /><br>
-		이름 : <input id="cusName" type="text" name="cusName" th:value="${cus.cusName}" /><br>
+		고객코드 : <input id="cusId" type="text" name="cusId" th:value="${cus.cusId}" readonly /><br>
+		이름 : <input id="cusName" type="text" name="cusName" th:value="${cus.cusName}" readonly/><br>
 		포인트내용 : <input id="res" type="text" name="res" th:value="${cus.res}" /><br>
 		포인트 : <input id="getP" type="text" name="getP" th:value="${cus.getP}" /><br>
 		일시 : <input id="pDate" type="text" name="pDate" th:value="${cus.pDate}" readonly/><br>

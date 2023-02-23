@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-	layout:decorate="~{layout/basic.html}">
+	layout:decorate="~{layout/iframe.html}">
 <title>customer list</title>
 <head>
 <style>
@@ -13,7 +13,7 @@ table tbody tr:hover {
 <div layout:fragment="content">
 	<h1>고객정보 페이지입니다</h1>
 	<hr>
-
+	
 	<div>
 		<input type="text" id="search_cusId" placeholder="고객코드를 입력해주세요.">
 		<input type="button" value="검색" onclick="searchCusId()">
@@ -46,6 +46,7 @@ table tbody tr:hover {
 	</table>
 	</div>
 	<br>
+	
 	<button onclick="cancel()">돌아가기</button>
 </div>
 <script
@@ -108,10 +109,6 @@ table tbody tr:hover {
     		alert('고객코드를 입력해주세요.');
     		return;
     	}
-    	if(search_cusId!='search_id'){
-    		alert('고객정보가 존재하지않습니다.')
-    		return;
-    	}
     	$.ajax({
     		url:'search',
     		data:{
@@ -121,7 +118,6 @@ table tbody tr:hover {
     		success:function(result){
     			$('#foundCus').children().remove();
     			result.forEach(function(cus){
-    				console.log(cus);
     				let child = `<tr align = "center" onclick="selectRow(this)">
     					<td><input class="sel" type="checkbox" name="cus" value=`+ cus.cusId +`></td>
     					<td>`+cus.cusId+`</td>

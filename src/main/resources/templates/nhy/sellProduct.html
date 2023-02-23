@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
-<head>
-<style>
-	table tbody tr:hover {
-		background-color: lightgray;
-	}
-</style>
-</head>
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/iframe.html}">
 <div layout:fragment="content">
-	<button onclick="cancel()">돌아가기</button>
 	<h1>상품판매 페이지입니다</h1>
 	<hr>
 	상품검색
 	<div>
 		<input type="text" id="search_product_name" placeholder="상품명을 입력해주세요.">
-		<input type="button" value="검색" id="search_modal_open_btn" onclick="openBuyProductPopupModal()">
+		<input type="button" value="검색" id="search_modal_open_btn"
+			onclick="openBuyProductPopupModal()">
 	</div>
 	<hr>
 	결제목록
@@ -44,11 +37,12 @@ layout:decorate="~{layout/basic.html}">
 	<hr>
 	고객검색
 	<div>
-		<input type="text" id="search_customer_name" placeholder="고객명을 입력해주세요.">
+		<input type="text" id="search_customer_name"
+			placeholder="고객명을 입력해주세요.">
 		<button onclick="openSearchCustomerPopupModal()">검색</button>
 		<button onclick="customerReset()">RESET</button>
-		<br><br>
-		고객코드 : <input type="text" id="customerId" readonly><br>
+		<br>
+		<br> 고객코드 : <input type="text" id="customerId" readonly><br>
 		이름 : <input type="text" id="customerName" readonly><br>
 		생년월일 : <input type="text" id="customerBirth" readonly><br>
 		전화번호 : <input type="text" id="customerTel" readonly><br>
@@ -59,8 +53,9 @@ layout:decorate="~{layout/basic.html}">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h2>상품검색</h2>
-					<input type="text" id="search_product_name_modal" placeholder="상품명을 입력해주세요.">
-					<input type="button" value="검색" onclick="searchProduct()">
+					<input type="text" id="search_product_name_modal"
+						placeholder="상품명을 입력해주세요."> <input type="button"
+						value="검색" onclick="searchProduct()">
 				</div>
 				<div class="modal-body table-responsive">
 					<table class="table" border="1">
@@ -77,13 +72,15 @@ layout:decorate="~{layout/basic.html}">
 						<tbody id="foundProducts">
 						</tbody>
 						<tr>
-						<td colspan="6" align="right">총액 : <span id="selectedProudctsPrice">0</span></td>
+							<td colspan="6" align="right">총액 : <span
+								id="selectedProudctsPrice">0</span></td>
 						</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
 					<input type="button" value="선택" onclick="selectProducts()">
-				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeBuyProductPopupModal()">
+					<input type="button" id="search_modal_close_btn" value="취소"
+						onclick="closeBuyProductPopupModal()">
 				</div>
 			</div>
 		</div>
@@ -93,8 +90,9 @@ layout:decorate="~{layout/basic.html}">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h2>고객조회</h2>
-					<input type="text" id="search_customer_name_modal" placeholder="고객명을 입력해주세요.">
-					<input type="button" value="검색" onclick="searchCustomer()">
+					<input type="text" id="search_customer_name_modal"
+						placeholder="고객명을 입력해주세요."> <input type="button"
+						value="검색" onclick="searchCustomer()">
 				</div>
 				<div class="modal-body table-responsive">
 					<table class="table" border="1">
@@ -112,12 +110,21 @@ layout:decorate="~{layout/basic.html}">
 				</div>
 				<div class="modal-footer">
 					<input type="button" value="선택" onclick="selectCustomer()">
-				<input type="button" id="search_modal_close_btn" value="취소" onclick="closeSearchCustomerPopupModal()">
+					<input type="button" id="search_modal_close_btn" value="취소"
+						onclick="closeSearchCustomerPopupModal()">
 				</div>
 			</div>
 		</div>
 	</div>
-</div>	
+	<div>
+		쿠폰적용 : <span id=addevent></span> <select name="event_name">
+			<option value="0">--쿠폰을 선택하세요.--</option>
+			<th:block th:each="event : ${eventList}">
+				<option th:value="${event.event_name}">[[${event.event_name}]]</option>
+			</th:block>
+		</select> <input type="button" onclick="함수()" value="적용">
+	</div>
+</div>
 <script layout:fragment="script" th:inline="javascript">
 	//전체선택
 	let selBtn = false;
@@ -332,6 +339,8 @@ layout:decorate="~{layout/basic.html}">
     }
     
     function pay(select){
+    	let event_name = $("select[name='event_name'] option:selected").val();
+    	
     	if(selectedProductsSet.size==0){
     		alert('선택된 상품이 없습니다.');
     		return;
@@ -369,7 +378,8 @@ layout:decorate="~{layout/basic.html}">
 							'selectedProductsArray':selectedProductsArray,
 							'userId':'customer1',
 							'cusId':$('#customerId').val(),
-							'totalPrice':$('#totalPrice').text()
+							'totalPrice':$('#totalPrice').text(),
+							'event_name':event_name
 							}
 						),
 				success:function(result){
@@ -438,5 +448,6 @@ layout:decorate="~{layout/basic.html}">
     	$('#customerBirth').val('')
     	$('#customerTel').val('')
     }
+    
 </script>
 </html>

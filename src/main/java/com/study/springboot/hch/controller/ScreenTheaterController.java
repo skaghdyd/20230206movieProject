@@ -1,5 +1,6 @@
 package com.study.springboot.hch.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class ScreenTheaterController {
 
 	@GetMapping("/screenTheaterInsertForm")
 	public String screenTheaterInsert(Model model) {
-		List<MovieTheaterDTO> movieTherter = movieTheaterMapper.selectMovieTheaterNames();
-		model.addAttribute("movieTheaterName", movieTherter);
+		List<MovieTheaterDTO> movieTherter = movieTheaterMapper.selectMovieTheaterAll();
+		model.addAttribute("movieTheaterLst", movieTherter);
 		return "/hch/screenTheater/screenTheaterInsertForm";
 	}
 	
@@ -42,7 +43,7 @@ public class ScreenTheaterController {
 	
 	@GetMapping("/screenTheaterList")
 	public String screenTheaterList(Model model) {
-		List<ScreenTheaterDTO> slst = screenTheaterMapper.selectScreenTheaterAll();
+		List<HashMap> slst = screenTheaterMapper.selectScreenTheaterAll();
 		model.addAttribute("screenTheaterList", slst);
 		return "/hch/screenTheater/screenTheaterList";
 	}

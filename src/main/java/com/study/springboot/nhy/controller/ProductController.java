@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.study.springboot.lby.domain.EventDTO;
+import com.study.springboot.lby.mapper.EventMapper;
 import com.study.springboot.nhy.domain.ProductDTO;
 import com.study.springboot.nhy.service.ProductService;
 
@@ -26,6 +28,9 @@ import jakarta.servlet.http.HttpSession;
 public class ProductController {
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	private EventMapper eventMapper;
 	
 	//상품페이지
 	@GetMapping("/index")
@@ -81,7 +86,9 @@ public class ProductController {
 	
 	//상품판매페이지
 	@GetMapping("/sell")
-	public String sellProduct() {
+	public String sellProduct(Model model) {
+		List<EventDTO> eventList = eventMapper.selectEventAll();
+		model.addAttribute("eventList", eventList);
 		return "nhy/sellProduct";
 	}
 	
@@ -111,7 +118,8 @@ public class ProductController {
 		List product_list = (List)params.get("selectedProductsArray");
 		String cusId = (String)params.get("cusId");
 		int totalPrice = Integer.parseInt((String)params.get("totalPrice"));
-		int result = productService.sellProduct(product_list, user_id, sales_user_id, cusId, totalPrice);
+		String event_name = (String)params.get("event_name");
+		int result = productService.sellProduct(product_list, user_id, sales_user_id, cusId, totalPrice, event_name);
 		
 		return result;
 	}

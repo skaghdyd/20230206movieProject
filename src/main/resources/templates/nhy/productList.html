@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
+	xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+	layout:decorate="~{layout/iframe.html}">
 <head>
 <style>
-	table tbody tr:hover {
-		background-color: lightgray;
-	}
+table tbody tr:hover {
+	background-color: lightgray;
+}
 </style>
+
 </head>
 <div layout:fragment="content">
-<button onclick="cancel()">돌아가기</button>
-<h1>상품목록 페이지입니다</h1><hr>
-<button onclick="addProduct()">등록</button>
-<button onclick="deleteProduct()">삭제</button>
-<button onclick="modifyProduct()">수정</button>
-<table class="table" border="1">
-	<thead>
-		<tr align="center">
-			<td onclick="sel()">선택</td>
-			<td>상품번호</td>
-			<td>상품명</td>
-			<td>상품가격</td>
-			<td>상품재고</td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
-			<td><input class="sel" type="checkbox" name="sel" th:value="${list.product_id}"/></td>
-			<td th:text="${list.product_id}"></td>
-			<td th:text="${list.product_name}"></td>
-			<td th:text="${list.product_price}"></td>
-			<td th:text="${list.product_stock}"></td>
-		</tr>
-	</tbody>
-</table>
+	<h1>상품목록 페이지입니다</h1>
+	<hr>
+	<button onclick="addProduct()">등록</button>
+	<button onclick="deleteProduct()">삭제</button>
+	<button onclick="modifyProduct()">수정</button>
+	<table class="table" border="1">
+		<thead>
+			<tr align="center">
+				<td onclick="sel()">선택</td>
+				<td>상품번호</td>
+				<td>상품명</td>
+				<td>상품가격</td>
+				<td>상품재고</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="list : ${list}" align="center" onclick="selectRow(this)">
+				<td><input class="sel" type="checkbox" name="sel"
+					th:value="${list.product_id}" /></td>
+				<td th:text="${list.product_id}"></td>
+				<td th:text="${list.product_name}"></td>
+				<td th:text="${list.product_price}"></td>
+				<td th:text="${list.product_stock}"></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 <script layout:fragment="script" th:inline="javascript">
 	function cancel(){
@@ -113,4 +115,3 @@ layout:decorate="~{layout/basic.html}">
 	    }
 	}
 </script>
-</html>	

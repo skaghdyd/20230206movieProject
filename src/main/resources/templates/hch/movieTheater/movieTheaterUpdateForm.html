@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-<form action="/movieTheater/movieTheaterUpdate" method="post" th:each="movieThea : ${ movieTheaterList }">
-	영화관코드<input type="text" name="movieTheater_code" th:value="${movieThea.movieTheater_code}" readonly><br>
-	영화관이름<input type="text" name="movieTheater_name" th:value="${movieThea.movieTheater_name}"><br>
-	영화관장소<input type="text" name="movieTheater_place" th:value="${movieThea.movieTheater_place}"><br>
-	영화관전화번호<input type="text" name="movieTheater_tel" th:value="${movieThea.movieTheater_tel}"><br>
-	<input type="submit" value="수정">
-</form>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/iframe.html}">
+<div layout:fragment="content">
+	<form action="/movieTheater/movieTheaterUpdate" method="post" th:each="movieThea : ${ movieTheaterList }">
+		영화관코드<input type="text" name="movieTheater_code" th:value="${movieThea.movieTheater_code}" readonly><br>
+		영화관이름<input type="text" name="movieTheater_name" th:value="${movieThea.movieTheater_name}"><br>
+		영화관장소<input type="text" name="movieTheater_place" th:value="${movieThea.movieTheater_place}"><br>
+		영화관전화번호<input type="text" name="movieTheater_tel" th:value="${movieThea.movieTheater_tel}"><br>
+		<input type="submit" value="수정">
+	</form>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+</script>
 </html>

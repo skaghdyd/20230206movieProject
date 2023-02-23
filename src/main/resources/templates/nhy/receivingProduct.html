@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
-layout:decorate="~{layout/basic.html}">
+layout:decorate="~{layout/iframe.html}">
 <div layout:fragment="content">
-	<button onclick="cancel()">돌아가기</button>
 	<h1>상품입고 페이지입니다</h1>
 	<hr>
 	상품검색
@@ -61,7 +60,7 @@ layout:decorate="~{layout/basic.html}">
 			</div>
 		</div>
 	</div>
-</div>	
+</div>
 <script layout:fragment="script" th:inline="javascript">
 	//전체선택
 	let selBtn = false;

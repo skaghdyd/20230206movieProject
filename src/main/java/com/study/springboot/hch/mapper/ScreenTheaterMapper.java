@@ -1,5 +1,6 @@
 package com.study.springboot.hch.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -14,18 +15,20 @@ import com.study.springboot.hch.domain.ScreenTheaterDTO;
 @Mapper
 public interface ScreenTheaterMapper {
 	
-	@Insert("insert into screenTheater(movieTheater_name, screenTheater_name, screenTheater_price) "
-			+ "values(#{movieTheater_name}, #{screenTheater_name}, #{screenTheater_price} )")
+	@Insert("insert into screenTheater(movieTheater_code, screenTheater_name, screenTheater_price) "
+			+ "values(#{movieTheater_code}, #{screenTheater_name}, #{screenTheater_price} )")
 	int insertScreenTheater(ScreenTheaterDTO screenTheaterDTO);
 
-	@Select("select screenTheater_code, movieTheater_name, screenTheater_name, screenTheater_price from screentheater")
-	List<ScreenTheaterDTO> selectScreenTheaterAll();
+	@Select("select screenTheater_code, movieTheater_code, screenTheater_name, screenTheater_price, "
+			+ "(SELECT movieTheater_name FROM movietheater WHERE movieTheater_code = screentheater.movieTheater_code) AS movieTheater_name"
+			+ " from screentheater")
+	List<HashMap> selectScreenTheaterAll();
 	
 	@Delete("delete from screenTheater where screenTheater_code = #{screenTheater_code}")
 	int deleteScreenTheater(int screenTheater_code);
 	
-//	수정중
-	@Select("select screenTheater_name from screenTheater where movieTheater_name = #{ movieTheaName }")
+
+	@Select("select screenTheater_code, screenTheater_name from screenTheater where movieTheater_code = #{ movieTheaName }")
 	List<ScreenTheaterDTO> selectCategoryName(@Param("movieTheaName") String movTheaName);
 	
 //	x

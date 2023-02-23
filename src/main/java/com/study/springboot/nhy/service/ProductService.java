@@ -19,7 +19,7 @@ public interface ProductService {
 
 	public List<HashMap> searchProduct(String product_name);
 	
-	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice);
+	public int sellProduct(List product_list, String user_id, String sales_user_id, String cusId, int totalPrice, String event_name);
 
 	public List<HashMap> selectAllSellProduct();
 

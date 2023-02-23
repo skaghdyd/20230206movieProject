@@ -89,4 +89,6 @@ public interface ProductMapper {
 			@Param("cusId") String cusId,
 			@Param("cusName") String cusName
 			);
+
+	public int useCoupon(String event_name);
 }

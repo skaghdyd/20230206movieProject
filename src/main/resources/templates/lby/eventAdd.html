@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/iframe.html}">
+<head>
+<style>
+	.in{
+		border:1px dotted;
+		border-radius:5px;
+		padding:50px;
+		margin: 50px;
+		text-align: center;
+		
+	}
+</style>
+</head>
+
+<div class="out" layout:fragment="content">
+	<h2>쿠폰등록</h2>
+	<div class="in">
+		<form action="/eventInsert" method="post">
+			쿠폰명<input type="text" name="event_name" ><br> 
+			할인금액<input type="text" name="event_price" ><br> 
+			발행가능매수<input type="text" name="event_count" ><br> 
+			<input type="submit" value="등록" >
+		</form>
+	</div>	
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+		
+	
+</script>
