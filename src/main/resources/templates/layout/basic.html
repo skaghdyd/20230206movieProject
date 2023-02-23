@@ -22,9 +22,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 	</a>
 				</div>
                 <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/movie/index">영화관</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/product/index">상품</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/customer/main">고객관리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/movie/index">영화관</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/indexEvent">쿠폰</a>
                 </div>
             </div>
@@ -36,6 +36,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         <button class="btn btn-primary" id="sidebarToggle">
 							<
 						</button>
+						&nbsp<h1>[[${title}]]</h1>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">

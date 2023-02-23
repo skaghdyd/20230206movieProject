@@ -45,7 +45,8 @@ public class EventController {
 	}
 	
 	@GetMapping("/indexEvent")
-		public String indexEvent(){
+		public String indexEvent(Model model){
+		model.addAttribute("title", "쿠폰페이지");
 		return "/lby/indexEvent";
 	}
 	

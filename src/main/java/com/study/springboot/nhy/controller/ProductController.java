@@ -34,7 +34,8 @@ public class ProductController {
 	
 	//상품페이지
 	@GetMapping("/index")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("title", "상품페이지");
 		return "nhy/index_product";
 	}
 	
