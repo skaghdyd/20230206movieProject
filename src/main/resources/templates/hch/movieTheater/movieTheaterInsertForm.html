@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<a href="/index.html">홈페이지이동</a>
-<h1>영화관등록</h1>
-<form action="/movieTheater/movieTheaterInsert" method="post">
-영화관이름<input type="text" name="movieTheater_name"><br>
-영화관주소<input name="movieTheater_place"><br>
-영화관전화번호<input type="text" name="movieTheater_tel"><br>
-
-<input type="submit" value="등록">
-</form>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/iframe.html}">
+<div layout:fragment="content">
+	<h1>영화관등록</h1>
+	<form action="/movieTheater/movieTheaterInsert" method="post">
+		영화관이름<input type="text" name="movieTheater_name"><br>
+		영화관주소<input name="movieTheater_place"><br>
+		영화관전화번호<input type="text" name="movieTheater_tel"><br>
+		<input type="submit" value="등록">
+	</form>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+</script>
 </html>

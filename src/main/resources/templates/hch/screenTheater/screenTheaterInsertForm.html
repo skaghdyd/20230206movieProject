@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<a href="/index.html">홈페이지이동</a>
-<h1>상영관등록</h1>
-<form action="/screenTheater/screenTheaterInsert" method="post">
-등록할 영화관이름<select name="movieTheater_code">
-	<option value="">--영화관을 선택하세요.--</option>
-	<option th:each="movieTheaLst : ${movieTheaterLst}" th:value="${movieTheaLst.movieTheater_code}" th:utext="${movieTheaLst.movieTheater_name}"></option>
-</select><br>
-상영관이름<select name="screenTheater_name">
-	<option value="1관">1관</option>
-	<option value="2관">2관</option>
-	<option value="3관">3관</option>
-	<option value="4관">4관</option>
-</select><br>
-상영관가격<input type="number" name="screenTheater_price"><br>
-
-<input type="submit" value="등록">
-</form>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
+layout:decorate="~{layout/iframe.html}">
+<div layout:fragment="content">
+	<h1>상영관등록</h1>
+	<form action="/screenTheater/screenTheaterInsert" method="post">
+	등록할 영화관이름
+		<select name="movieTheater_code">
+			<option value="">--영화관을 선택하세요.--</option>
+			<option th:each="movieTheaLst : ${movieTheaterLst}" th:value="${movieTheaLst.movieTheater_code}" th:utext="${movieTheaLst.movieTheater_name}"></option>
+		</select><br>
+		상영관이름
+		<select name="screenTheater_name">
+			<option value="1관">1관</option>
+			<option value="2관">2관</option>
+			<option value="3관">3관</option>
+			<option value="4관">4관</option>
+		</select><br>
+		상영관가격<input type="number" name="screenTheater_price"><br>
+		<input type="submit" value="등록">
+	</form>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+</script>
 </html>

@@ -3,8 +3,32 @@
 xmlns:layout="http://www.ultraq.net.nz/thtmeleaf/layout"
 layout:decorate="~{layout/basic.html}">
 <div layout:fragment="content">
-	<h1>쿠폰관리</h1><br>
-	<button class="btn" onclick="location.href='eventAdd'">쿠폰등록</button>
-	<button class="btn" onclick="location.href='eventList'">쿠폰조회</button>
+	<button style="border:1px solid black" class="btn" onclick="eventAdd()">쿠폰등록</button>
+	<button style="border:1px solid black" class="btn" onclick="eventList()">쿠폰조회</button>
+	<hr>
+	<div id="view">
+		<iframe id="iframe" src="" style="display:block; width:80vw; height: 100vh"></iframe>
+	</div>
 </div>
+<script layout:fragment="script">
+	function eventAdd(){
+		$.ajax({
+			url:'eventAdd',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "eventAdd");
+			}
+		});
+	}
+	
+	function eventList(){
+		$.ajax({
+			url:'eventList',
+			type:'GET',
+			success:function(result){
+				$('#iframe').attr("src", "eventList");
+			}
+		});
+	}
+</script>
 </html>
