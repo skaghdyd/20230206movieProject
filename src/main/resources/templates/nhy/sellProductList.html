@@ -83,7 +83,7 @@ table tbody tr:hover {
 			success:function(result){
 				$('#selectedProductDetails').children().remove();				
 				result.forEach(function(detail){
-					let child = `<tr>
+					let child = `<tr align="center">
 					<td>`+detail.product_id+`</td>
 					<td>`+detail.product_name+`</td>
 					<td>`+detail.product_price+`</td>
