@@ -57,7 +57,7 @@ layout:decorate="~{layout/iframe.html}">
 			success:function(result){
 				if(result==1){
 					alert('고객등록 되었습니다.');
-					location.href='main';
+					window.parent.document.location.href='main';
 				} else {
 					alert('고객등록에 실패하였습니다! 관리자에게 문의하세요.');
 				}
@@ -67,7 +67,7 @@ layout:decorate="~{layout/iframe.html}">
 		
 	
 	function cancel(){
-		location.href='main';
+		window.parent.document.location.href='main';
 	}
 </script>
 </html>
