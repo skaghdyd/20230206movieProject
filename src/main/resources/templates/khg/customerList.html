@@ -86,7 +86,7 @@ table tbody tr:hover {
 			alert('수정할 행을 선택해주세요.');
 			return;
 		}
-		window.parent.document.location.href='modify?cusId='+cusId;
+		location.href='modify?cusId='+cusId;
 	}
 	let cusId = 0;
 	function selectRow(target){
